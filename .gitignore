@@ -1,0 +1,8 @@
+# Python virtual environment
+myenv/
+
+# Environment variables
+.env
+
+# Google API credentials
+client_secret.json
