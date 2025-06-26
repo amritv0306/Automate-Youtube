@@ -64,7 +64,7 @@ def generate_trending_news_content(api_key):
     title = sanitize_metadata(title_response.text)
     
     # Generate a description for the trending news
-    desc_prompt = f"Write a 100 words description summarizing the latest trending news on {title}. Just give me the description, no tittle. Dont include \", quotes. "
+    desc_prompt = f"Write a 100 words description summarizing the latest trending news on {title}. Just give me the description, no tittle. Dont include \" quotes. "
     # desc_response = client.models.generate_content(
     #     model="gemini-2.0-flash",
     #     contents=desc_prompt
@@ -112,7 +112,7 @@ def main():
     
     # Add arguments
     parser.add_argument("--api-key", "-k", required=True, help="Google Gemini API key")
-    parser.add_argument("--output", "-o", default="news_output.txt", help="Output file path (default: news_output.txt)")
+    parser.add_argument("--output", "-o", default="news_output.json", help="Output file path (default: news_output.txt)")
     
     # Parse arguments
     args = parser.parse_args()

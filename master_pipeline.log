@@ -1,49 +1,50 @@
-2025-06-25 21:11:01,435 [INFO] 
+2025-06-27 00:51:33,961 [INFO] 
 === STEP 1: Generating Trending News ===
-2025-06-25 21:11:11,678 [INFO] Generating trending news information...
+2025-06-27 00:51:45,692 [INFO] Generating trending news information...
 
 ==================================================
 TRENDING NEWS INFORMATION
 ==================================================
-TITLE: AI Jobs Boom Sparks Ethical Debate in India
+TITLE: AI Tax Sparks National Debate
 
 DESCRIPTION:
-India's booming AI sector is creating a surge in job opportunities, but this rapid growth is igniting a fierce ethical debate. Concerns are rising about potential biases in AI algorithms perpetuating societal inequalities. Experts are questioning the lack of transparency and accountability in AI development processes. The discussion includes issues of job displacement due to automation. Advocates call for stronger regulations and ethical guidelines to ensure fairness and responsible AI implementation across industries to protect citizens and promote trustworthy innovation. The need for retraining and upskilling programs to mitigate job losses is also highlighted.
+A surge in discussions surrounds the proposal of an "AI tax," igniting a national debate about its potential impact. Fueling concerns and prompting intense discussions amongst experts and the public alike, the idea aims to address job displacement and economic shifts that are potentially caused by rapid AI advancements. Supporters argue that the tax could fund retraining programs and social safety nets. Opponents raise concerns about stifling innovation and hindering economic growth. The feasibility and fairness of taxing AI remain central points of contention, driving widespread media coverage and online discussions as the conversation evolves.
 
 TAGS:
-#AIJobs, #IndiaAI, #EthicalAI, #AIJobMarket, #AIethicsIndia, #SkillsGap, #AIregulation, #ResponsibleAI, #AIdevelopment, #TechEthics
+#AITax, #TaxPolicy, #ArtificialIntelligence, #EconomicImpact, #JobDisplacement, #Innovation, #GovernmentRegulation, #FutureOfWork, #TaxReform, #Automation
 ==================================================
 
-2025-06-25 21:11:13,707 [INFO] 
+2025-06-27 00:51:47,722 [INFO] 
 === STEP 2: Adding Captions and Speech to Video ===
-2025-06-25 21:11:38,931 [INFO] Converting text to speech and calculating timing...
-Speech audio saved to: temp_speech_audio.mp3
-Created 6 caption segments:
-  1. 0.0s - 14.0s: India's booming AI sector is creating a surge in job opportunities, but this rapid growth is igniting a fierce ethical debate
-  2. 14.5s - 22.5s: Concerns are rising about potential biases in AI algorithms perpetuating societal inequalities
-  3. 23.0s - 31.7s: Experts are questioning the lack of transparency and accountability in AI development processes
-  4. 32.2s - 38.8s: The discussion includes issues of job displacement due to automation
-  5. 39.3s - 55.3s: Advocates call for stronger regulations and ethical guidelines to ensure fairness and responsible AI implementation across industries to protect citizens and promote trustworthy innovation
-  6. 55.8s - 65.2s: The need for retraining and upskilling programs to mitigate job losses is also highlighted
-Adding audio and live captions to video...
-Running command: ffmpeg -i testvideo2.mp4 -i temp_speech_audio.mp3 -vf subtitles=temp_subtitles.srt:force_style='Fontsize=24,PrimaryColour=&Hffffff,OutlineColour=&H000000,Outline=2,Alignment=2' -map 0:v -map 1:a -c:v libx264 -c:a aac -preset medium -shortest -y final_output.mp4
-Output video saved to: final_output.mp4
-Process completed successfully!
-Temporary audio file temp_speech_audio.mp3 removed.
+2025-06-27 00:51:47,722 [INFO] Selected voice: Grandpa (ID: NOpBlnGInO9m6vDvFkFC)
+2025-06-27 01:01:06,563 [INFO] Speech audio saved to: temp_speech.mp3
+Moviepy - Building video temp_video_with_speech.mp4.
+MoviePy - Writing audio in temp_video_with_speechTEMP_MPY_wvf_snd.mp4
+MoviePy - Done.
+Moviepy - Writing video temp_video_with_speech.mp4
 
-2025-06-25 21:11:40,933 [INFO] 
+Moviepy - Done !
+Moviepy - video ready temp_video_with_speech.mp4
+Output video saved to: temp_video_with_speech.mp4
+No language specified, language will be first be detected for each audio file (increases inference time).
+>>Performing voice activity detection using Pyannote...
+Model was trained with pyannote.audio 0.0.1, yours is 3.3.2. Bad things might happen unless you revert pyannote.audio to 0.x.
+Model was trained with torch 1.10.0+cu102, yours is 2.7.1+cpu. Bad things might happen unless you revert torch to 1.x.
+Final video with captions saved to: final_output.mp4
+
+2025-06-27 01:01:08,575 [INFO] 
 === STEP 3: Uploading Video to YouTube Shorts ===
-2025-06-25 21:12:10,538 [INFO] Validating video... Duration: 50.18 seconds.
+2025-06-27 01:01:48,820 [INFO] Validating video... Duration: 58.85 seconds.
 
 Authenticating with YouTube...
-Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=685844118333-r0ohilv6dcuj5295sh0io2jtq16q5192.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload&state=oEM2jEyOTxwzhqIDkx6YLzzLgGI878&access_type=offline
+Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=685844118333-r0ohilv6dcuj5295sh0io2jtq16q5192.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload&state=ZklORC3Ao78AdRDX1yZzbUQyAvOLxd&access_type=offline
 Appended #Shorts to title.
 Appended hastags to description.
 Added 'shorts' to tags.
 
 Uploading file: final_output.mp4...
-Upload Complete! Video ID: mfh4JdCtU6Y
+Upload Complete! Video ID: AuqJj01eFBI
 
-Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/mfh4JdCtU6Y
+Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/AuqJj01eFBI
 
-2025-06-25 21:12:10,553 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===
+2025-06-27 01:01:48,820 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===
