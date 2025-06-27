@@ -1,139 +1,100 @@
-# import requests
-# import json
-# import argparse
-
-# def get_top_headlines(api_key, country="in", max_results=1):
-#     url = "https://newsapi.org/v2/top-headlines"
-#     params = {
-#         "country": country,
-#         "pageSize": max_results,
-#         "apiKey": api_key,
-#         "language": "en"
-#     }
-#     response = requests.get(url, params=params)
-#     data = response.json()
-#     if data["status"] != "ok":
-#         raise Exception(f"NewsAPI error: {data.get('message', 'Unknown error')}")
-#     return data["articles"]
-
-# def extract_news_metadata(article):
-#     # You can customize this as needed
-#     title = article.get("title", "No Title")
-#     description = article.get("description", "") or article.get("content", "")
-#     # Use title and description to generate tags (simple split, or use keywords)
-#     tags = set()
-#     for word in (title + " " + description).split():
-#         word = word.strip(",.?!").capitalize()
-#         if len(word) > 3:  # Only keep longer words for tags
-#             tags.add(word)
-#     tags = list(tags)[:10]  # Limit to 10 tags
-#     return {
-#         "title": title,
-#         "description": description,
-#         "tags": tags
-#     }
-
-# def main():
-#     parser = argparse.ArgumentParser(description="Fetch trending news using NewsAPI")
-#     parser.add_argument("--api-key", required=True, help="NewsAPI key")
-#     parser.add_argument("--output", default="news_output.json", help="Output JSON file")
-#     args = parser.parse_args()
-
-#     articles = get_top_headlines(args.api_key, country="in", max_results=1)
-#     if not articles:
-#         print("No news articles found.")
-#         return
-    
-#     print("Generating trending news information...")
-#     news_info = extract_news_metadata(articles[0])
-
-#     print("\n" + "="*50)
-#     print("TRENDING NEWS INFORMATION")
-#     print("="*50)
-
-#     print(f"TITLE: {news_info['title']}")
-
-#     print("\nDESCRIPTION:")
-#     print(news_info['description'])
-
-#     print("\nTAGS:")
-#     print(", ".join(news_info['tags']))
-
-#     print("="*50)
-
-#     # Save to JSON for downstream steps
-#     with open(args.output, "w", encoding="utf-8") as f:
-#         json.dump(news_info, f, ensure_ascii=False, indent=2)
-#     print(f"Saved trending news to {args.output}:\n{json.dumps(news_info, indent=2, ensure_ascii=False)}")
-
-# if __name__ == "__main__":
-#     main()
-
-"""import requests
-
-def fetch_trending_news_in_india(api_key, category=None, page_size=5):
-    url = "https://newsapi.org/v2/top-headlines"
-    params = {
-        "country": "in",          # 'in' for India
-        "pageSize": page_size,    # number of articles to fetch
-        "apiKey": api_key
-    }
-
-    if category:
-        params["category"] = "technology"  # Optional: 'business', 'entertainment', etc.
-
-    response = requests.get(url, params=params)
-    data = response.json()
-    print("Raw response:", data)  # Add this just after `data = response.json()`
-
-    if data["status"] != "ok":
-        print("Error:", data.get("message", "Unknown error"))
-        return []
-
-    articles = data["articles"]
-    return [f"{article['title']} ({article['source']['name']})" for article in articles]
-
-# Usage
-api_key = "106200f63dd3441883c93c09ebc4559f"  # 🔑 Replace this with your actual NewsAPI key
-news_list = fetch_trending_news_in_india(api_key, page_size=5)
-
-if not news_list:
-    print("No trending news found.")
-
-for i, news in enumerate(news_list, 1):
-    print(f"{i}. {news}")"""
-
 import requests
+import argparse
+import json
+import time
 
-def fetch_india_headlines(api_key):
+def get_latest_news(api_key, max_retries=3):
     url = "https://newsapi.org/v2/top-headlines"
     params = {
         "country": "in",
-        "category": "general",  # Make sure category is added
-        "pageSize": 5,
-        "apiKey": api_key
+        "apiKey": api_key,
+        "pageSize": 1,
+        "sortBy": "publishedAt"
     }
+    
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()  # Raise HTTP errors
+            data = response.json()
+            
+            if not data.get("articles"):
+                if attempt < max_retries - 1:
+                    time.sleep(2)  # Wait before retrying
+                    continue
+                raise ValueError("No articles found in NewsAPI response.")
+            
+            article = data["articles"][0]
+            return {
+                "title": article["title"].replace('"', ''),
+                "description": article.get("description") or article["title"],
+                "tags": ["#BreakingNews", "#India"]
+            }
+            
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise Exception(f"NewsAPI failed after {max_retries} retries: {str(e)}")
+            time.sleep(2)
 
-    response = requests.get(url, params=params)
-    data = response.json()
+from bs4 import BeautifulSoup
 
-    if data["status"] != "ok":
-        print("❌ Error:", data.get("message", "Unknown error"))
-        return []
+def scrape_google_news():
+    url = "https://news.google.com/topstories?hl=en-IN&gl=IN&ceid=IN:en"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+    }
+    
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
+        
+        # Updated selector (June 2024)
+        headline_element = soup.select_one("h3 a")  # More generic selector
+        print(headline_element) # Debugging line to check if the element is found
+        if not headline_element:
+            raise ValueError("No headlines found on Google News.")
+        
+        return {
+            "title": headline_element.text.strip(),
+            "description": "Latest trending news from Google",  # Fallback
+            "tags": ["#Trending", "#India"]
+        }
+        
+    except Exception as e:
+        raise Exception(f"Google News scraping failed: {str(e)}")
+    
+news_data = scrape_google_news()
+output = "news_data.json"
+with open(output, "w") as f:
+    json.dump(news_data, f, indent=2)
+    
 
-    articles = data.get("articles", [])
-    if not articles:
-        print("❗ No articles found. Try changing the category or removing filters.")
-        return []
+    
+# def get_news_safely(api_key):
+#     try:
+#         return get_latest_news(api_key)  # Try NewsAPI first
+#     except Exception as api_error:
+#         print(f"NewsAPI failed: {api_error}. Falling back to scraping...")
+#         try:
+#             return scrape_google_news()  # Fallback to scraping
+#         except Exception as scrape_error:
+#             raise Exception(f"All news sources failed:\n1. {api_error}\n2. {scrape_error}")
 
-    print("📰 Top News Headlines in India:")
-    for i, article in enumerate(articles, 1):
-        print(f"{i}. {article['title']} ({article['source']['name']})")
-    return articles
+# # Usage:
 
-# 🔑 Replace this with your actual NewsAPI key
-api_key = "106200f63dd3441883c93c09ebc4559f"
+# def main():
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("--api-key", required=True, help="NewsAPI key")
+#     parser.add_argument("--output", default="news_output_new.json", help="Output file")
+#     args = parser.parse_args()
 
-fetch_india_headlines(api_key)
-print("✅ News headlines fetched successfully.")
+#     # news_data = get_latest_news(args.api_key)
+#     news_data = get_news_safely(args.api_key)    
+#     # news_data = scrape_google_news()
+#     with open(args.output, "w") as f:
+#         json.dump(news_data, f, indent=2)
 
+
+# if __name__ == "__main__":
+#     main()

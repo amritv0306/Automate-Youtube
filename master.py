@@ -124,6 +124,7 @@ def main():
     # ----------------------------
     news_info = run_step1(GEMINI_API_KEY, output_file=NEWS_JSON)
     time.sleep(2)
+    # final_video_path = run_step2(INPUT_VIDEO, news_info["description"], FINAL_VIDEO)
     final_video_path = run_step2_1(INPUT_VIDEO, news_info["description"], FINAL_VIDEO, ELEVENLABS_API_KEY)
     time.sleep(2)
     run_step3(
