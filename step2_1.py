@@ -31,7 +31,7 @@ def add_audio_to_video(video_path, audio_path, output_path):
 
 def generate_srt_with_whisperx(audio_path, srt_path):
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = whisperx.load_model("large-v2", device, compute_type="float32") # "large-v2" is the model name, you can change it to "base", "small", "medium", etc. based on your needs
+    model = whisperx.load_model("small", device, compute_type="float32") # "large-v2" is the model name, you can change it to "base", "small", "medium", etc. based on your needs
     audio = whisperx.load_audio(audio_path)
     result = model.transcribe(audio, language="en")
     model_a, metadata = whisperx.load_align_model(language_code="en", device=device)

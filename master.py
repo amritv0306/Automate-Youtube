@@ -66,7 +66,7 @@ def run_step2_1(input_video, description, output_video, elevenlabs_api_key):
         "Aria": "9BWtsMINqrJLrRacOk9x",
         "Bill": "pqHfZKP75CvOlQylNhV4",
         "Brian": "nPczCjzI2devNBz1zQrb",
-        "Grandpa": "NOpBlnGInO9m6vDvFkFC",
+        # "Grandpa": "NOpBlnGInO9m6vDvFkFC",
         "Mark": "UgBBYS2sOqTuMpoF3BR0",
         "Cassidy": "56AoDkrOh6qfVPDXZ7Pt"
     }
