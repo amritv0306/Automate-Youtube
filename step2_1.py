@@ -55,7 +55,7 @@ def format_srt_time(seconds):
 def burn_captions_ffmpeg(video_path, srt_path, output_path):
     ffmpeg_cmd = [
         "ffmpeg", "-i", video_path,
-        "-vf", f"subtitles={srt_path}:force_style='Fontsize=24,PrimaryColour=&Hffffff,OutlineColour=&H000000,Outline=2,Alignment=2'",
+        "-vf", f"subtitles={srt_path}:force_style='Fontsize=18,PrimaryColour=&Hffffff,OutlineColour=&H000000,Outline=2,Alignment=2'",
         "-c:a", "copy", "-y", output_path
     ]
     subprocess.run(ffmpeg_cmd, check=True)
