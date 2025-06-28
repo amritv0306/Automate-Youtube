@@ -7,8 +7,9 @@ myenv/
 # Google API credentials
 client_secret.json
 
-# test file
+# test files
 test.py
+test2.py
 
 #doubts file
 doubts.txt

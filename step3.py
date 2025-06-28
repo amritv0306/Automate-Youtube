@@ -47,7 +47,7 @@ def upload_video_as_short(youtube, video_file, title, description, tags, categor
     # 2. Ensure hastags is in the description.
     hashtags = " ".join(tag for tag in tags)
     # if "#shorts" not in description.lower():
-    description += f"\n\n#Shorts {hashtags}"
+    description += f"\n\n#Shorts {hashtags} #BreakingNews #India #Trending #Viral"
     print("Appended hastags to description.")
 
     # 3. Ensure 'shorts' is one of the tags.
