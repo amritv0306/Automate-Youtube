@@ -37,6 +37,29 @@ def run_step1(api_key, output_file="news_output.json"):
         news_info = json.load(f)
     return news_info
 
+def run_step1_1(gemini_api_key, newsdata_api_key, output_file="news_output.json"):
+    logging.info("\n=== STEP 1: Generating Trending News using step1_1.py ===")
+    result = subprocess.run(
+        [
+            sys.executable, "step1_1.py",
+            "--gemini_api_key", gemini_api_key,
+            "--newsdata_api_key", newsdata_api_key,
+            "--output", output_file
+        ],
+        capture_output=True, text=True
+    )
+    logging.info(result.stdout)
+    if result.returncode != 0:
+        logging.info(f"Error in step1_1.py: {result.stderr}")
+        sys.exit(1)
+    if not os.path.exists(output_file):
+        logging.error(f"Error: {output_file} not found after step1_1.py")
+        sys.exit(1)
+    with open(output_file, "r", encoding="utf-8") as f:
+        news_info = json.load(f)
+    return news_info
+
+
 def run_step2(input_video, description, output_video):
     logging.info("\n=== STEP 2: Adding Captions and Speech to Video ===")
     result = subprocess.run(
@@ -117,12 +140,13 @@ def run_step3(final_video, title, description, tags, client_secret="client_secre
 def main():
     # ---- USER CONFIGURATION ----
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  
-    ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY") 
+    ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
+    NEWSDATA_API_KEY = os.getenv("NEWSDATA_API_KEY")
     INPUT_VIDEO = "testvideo2.mp4"
     FINAL_VIDEO = "final_output.mp4"
     NEWS_JSON = "news_output.json"
     # ----------------------------
-    news_info = run_step1(GEMINI_API_KEY, output_file=NEWS_JSON)
+    news_info = run_step1_1(GEMINI_API_KEY, NEWSDATA_API_KEY, output_file=NEWS_JSON)
     time.sleep(2)
     # final_video_path = run_step2(INPUT_VIDEO, news_info["description"], FINAL_VIDEO)
     final_video_path = run_step2_1(INPUT_VIDEO, news_info["description"], FINAL_VIDEO, ELEVENLABS_API_KEY)
