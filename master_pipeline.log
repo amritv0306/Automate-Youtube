@@ -1,36 +1,36 @@
-2025-06-29 21:22:08,594 [INFO] 
+2025-07-01 22:12:47,824 [INFO] 
 === STEP 1: Generating Trending News using step1_1.py ===
-2025-06-29 21:22:28,604 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
+2025-07-01 22:12:56,896 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
 
 Fetched news headlines and description lengths:
-1. Consumer Spending Likely To Increase Three–Four Times Annually In Next Five Years: V-Mart CMD | Description words: 20
-2. 11-day Mysuru Dasara this year to give cultural tribute to Gandhi on his Jayanti | Description words: 21
-3. Coromandel International: Here's Why Elara Securities' Prashant Biyani Is Bullish | Description words: 18
-4. Kolkata gangrape case: TMC's Madan Mitra refutes claims linking party to law college gangrape accused | Description words: 20
-5. Bonus Issue To Watch This Week — Container Corp. of India | Description words: 24
+1. The Power of Fair Value: LIC’s 34% Rally Shows What You Might Be Missing | Description words: 0
+2. Gold rises on weaker dollar, tariff uncertainty before deadline | Description words: 9
+3. Silt removal will be completed soon: Narayana | Description words: 24
+4. AP Dy CM expresses condolences | Description words: 0
+5. Club WC: Al Hilal stun Man City in seven-goal thriller | Description words: 0
 
 Selected news with the longest description:
-Title: Bonus Issue To Watch This Week — Container Corp. of India
+Title: Silt removal will be completed soon: Narayana
 Description length: 24 words
 
-Step 1.2: Generating a 100-word YouTube summary with Gemini...
+Step 1.2: Generating YouTube description with Gemini...
 
 Generated summary:
-Container Corp. is giving FREE shares!  For every 4 shares you own, you'll get 1 extra, completely free! That's a 1:4 bonus share issue.  These bonus shares are valued at Rs 5 each. This is HUGE news for investors.  Don't miss out on this incredible opportunity to boost your holdings. This video explains everything you need to know about this bonus share announcement, including what it means for you and how to take advantage of it.  Learn the details, understand the implications, and make informed investment decisions. Watch now!  #ContainerCorp #BonusShares #StockMarket #Investment
+Andhra Pradesh's Minister Ponguru Narayana announces a major push for improved municipal services!  His government is prioritizing clean drinking water, garbage collection, and silt removal.  This vital initiative aims to enhance the quality of life for citizens across municipalities.  Learn more in this video!
 
 Step 1.3: Generating hashtags...
-Hashtags: #board, #container, #corp, #proposed, #issue, #bonus, #shares, #ratio, #face, #value
+Hashtags: #claiming, #government, #giving, #priority, #drinking, #water, #garbage, #cleaning, #silt, #removal
 
 Step 1.4: Generating YouTube hook with Gemini...
-Generated hook: Container Corp: Huge bonus issue!
+Generated hook: Silt removal: Project nearing completion!
 
 All done! Output saved to news_output.json
 
-2025-06-29 21:22:30,668 [INFO] 
+2025-07-01 22:12:58,913 [INFO] 
 === STEP 2: Adding Captions and Speech to Video ===
-2025-06-29 21:22:30,668 [INFO] Selected voice: Cassidy (ID: 56AoDkrOh6qfVPDXZ7Pt)
-2025-06-29 21:22:49,978 [INFO] 
-2025-06-29 21:22:49,978 [ERROR] Error in step2_1.py: Traceback (most recent call last):
+2025-07-01 22:12:58,913 [INFO] Selected voice: Bill (ID: pqHfZKP75CvOlQylNhV4)
+2025-07-01 22:13:28,105 [INFO] 
+2025-07-01 22:13:28,105 [ERROR] Error in step2_1.py: Traceback (most recent call last):
   File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step2_1.py", line 89, in <module>
     main()
   File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step2_1.py", line 78, in main
@@ -47,5 +47,5 @@ All done! Output saved to news_output.json
           ^^^^^^^^^
   File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\myenv\Lib\site-packages\elevenlabs\text_to_speech\raw_client.py", line 209, in _stream
     raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-elevenlabs.core.api_error.ApiError: headers: {'date': 'Sun, 29 Jun 2025 15:52:46 GMT', 'server': 'uvicorn', 'content-length': '173', 'content-type': 'application/json', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'POST, PATCH, OPTIONS, DELETE, GET, PUT', 'access-control-max-age': '600', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'x-trace-id': 'ffeef5e756ed7ba181135b35b0e3390d', 'x-region': 'us-central1', 'via': '1.1 google, 1.1 google', 'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'}, status_code: 401, body: {'detail': {'status': 'quota_exceeded', 'message': 'This request exceeds your quota of 10000. You have 522 credits remaining, while 589 credits are required for this request.'}}
+elevenlabs.core.api_error.ApiError: headers: {'date': 'Tue, 01 Jul 2025 16:43:25 GMT', 'server': 'uvicorn', 'content-length': '476', 'content-type': 'application/json', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'POST, PATCH, OPTIONS, DELETE, GET, PUT', 'access-control-max-age': '600', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'x-trace-id': '8d41c710e045699e8d03793462b6cf4f', 'x-region': 'us-central1', 'via': '1.1 google, 1.1 google', 'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'}, status_code: 401, body: {'detail': {'status': 'detected_unusual_activity', 'message': 'Unusual activity detected. Free Tier usage disabled. If you are using a proxy/VPN you might need to purchase a Paid Plan to not trigger our abuse detectors. Free Tier only works if users do not abuse it, for example by creating multiple free accounts. If we notice that many people try to abuse it, we will need to reconsider Free Tier altogether. \nPlease play fair and purchase any Paid Subscription to continue.'}}
 

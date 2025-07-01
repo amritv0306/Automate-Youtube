@@ -61,7 +61,7 @@ def process_description(text, max_words=1000):
     return " ".join(words)
 
 def generate_summary(api_key, text):
-    prompt = f"""Summarize this text in exactly 100 words for a YouTube description that gains a lot of attention:
+    prompt = f"""Summarize this text in exactly 60 words for a YouTube description that gains a lot of attention:
 {text}
 
 Rules:
@@ -113,7 +113,7 @@ def main():
     description_raw = selected_news.get("description", "")
     description = process_description(description_raw, 1000)
 
-    print("\nStep 1.2: Generating a 100-word YouTube summary with Gemini...")
+    print("\nStep 1.2: Generating YouTube description with Gemini...")
     summary = generate_summary(args.gemini_api_key, description)
     if not summary:
         summary = description[:600]
