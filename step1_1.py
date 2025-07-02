@@ -61,7 +61,7 @@ def process_description(text, max_words=1000):
     return " ".join(words)
 
 def generate_summary(api_key, text):
-    prompt = f"""Summarize this text in exactly 60 words for a YouTube description that gains a lot of attention:
+    prompt = f"""Summarize this text in exactly 100 words for a YouTube description that gains a lot of attention:
 {text}
 
 Rules:
