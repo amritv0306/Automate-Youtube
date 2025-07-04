@@ -6,6 +6,7 @@ import json
 import re
 import time
 from google import genai  # Gemini API client
+from google.genai.types import GenerateContentConfig
 import argparse
 
 def generate_hashtags(text, num_tags=10):
@@ -30,11 +31,15 @@ def generate_hashtags(text, num_tags=10):
 
 def gemini_generate(api_key, prompt, model="gemini-1.5-flash", retries=3, delay=2):
     client = genai.Client(api_key=api_key)
+    system_instruction = "Summarize the following long text into a clear and concise 100-word description suitable for a YouTube Shorts video. Ensure the summary avoids any content that violates YouTube's Community Guidelines, including hate speech, graphic violence, sexual content, religious targeting, harassment, or sensationalism. Keep the language neutral, informative, and respectful, especially when describing sensitive topics. Avoid naming individuals unless already public figures or officially verified. Focus on facts, context, and awareness rather than emotion or outrage."
     for attempt in range(retries):
         try:
             response = client.models.generate_content(
                 model=model,
-                contents=prompt
+                contents=prompt,
+                config = GenerateContentConfig(
+                    system_instruction=system_instruction,
+                ),
             )
             return response.text.strip()
         except Exception as e:
@@ -52,6 +57,7 @@ def fetch_top_news(api_key, country="in", language="en", limit=5):
     }
     resp = requests.get(url, params=params)
     data = resp.json()
+    # print(data)
     return data.get("results", [])[:limit]
 
 def process_description(text, max_words=1000):
@@ -61,20 +67,19 @@ def process_description(text, max_words=1000):
     return " ".join(words)
 
 def generate_summary(api_key, text):
-    prompt = f"""Summarize this text in exactly 100 words for a YouTube description that gains a lot of attention:
-{text}
+    prompt = f"""Summarize this text in exactly 100 words for a YouTube description that gains a lot of attention: {text}
 
-Rules:
-1. Keep strictly 100 words
-2. Use simple language
-3. Include key facts only"""
+    Rules:
+    1. Keep strictly 100 words
+    2. Use simple language
+    3. Include key facts only and dont include hashtags"""
     return gemini_generate(api_key, prompt)
 
 def generate_hook(api_key, headline):
     prompt = f"""Convert this into a 5-word YouTube Shorts hook:
-Headline: '{headline}'
-Examples: 'This changes everything!', 'You won't believe this!'
-Respond ONLY with the hook."""
+            Headline: '{headline}'
+            Examples: 'This changes everything!', 'You won't believe this!'
+            Respond ONLY with the hook."""
     hook = gemini_generate(api_key, prompt)
     return hook or "Must Watch! 🔥"
 
