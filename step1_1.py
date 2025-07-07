@@ -9,29 +9,18 @@ from google import genai  # Gemini API client
 from google.genai.types import GenerateContentConfig
 import argparse
 
-def generate_hashtags(text, num_tags=10):
-    stopwords = set([
-        "the", "and", "for", "with", "that", "from", "this", "was", "are", "has", "had", "have",
-        "but", "not", "out", "all", "can", "will", "his", "her", "their", "who", "what", "when",
-        "where", "how", "why", "which", "about", "over", "into", "after", "just", "more", "than",
-        "been", "they", "them", "you", "your", "our", "were", "she", "him", "its", "it's",
-        "of", "on", "in", "to", "as", "by", "at", "is", "an", "a"
-    ])
-    words = re.findall(r'\b\w+\b', text.lower())
-    keywords = []
-    seen = set()
-    for word in words:
-        if word not in stopwords and len(word) > 3 and word not in seen:
-            keywords.append(word)
-            seen.add(word)
-    hashtags = ["#" + word for word in keywords[:num_tags]]
-    while len(hashtags) < num_tags:
-        hashtags.append(f"#news{len(hashtags)+1}")
-    return hashtags
-
 def gemini_generate(api_key, prompt, model="gemini-1.5-flash", retries=3, delay=2):
     client = genai.Client(api_key=api_key)
-    system_instruction = "Summarize the following long text into a clear and concise 100-word description suitable for a YouTube Shorts video. Ensure the summary avoids any content that violates YouTube's Community Guidelines, including hate speech, graphic violence, sexual content, religious targeting, harassment, or sensationalism. Keep the language neutral, informative, and respectful, especially when describing sensitive topics. Avoid naming individuals unless already public figures or officially verified. Focus on facts, context, and awareness rather than emotion or outrage."
+    system_instruction = """You are a helpful and professional content assistant specialized in optimizing YouTube video content. Your job is to generate concise, engaging, and YouTube-compliant content for creators. Follow YouTube's Community Guidelines strictly while avoiding hate speech, violence, adult content, or misleading claims.
+
+    Your tasks include:
+    1. Summarizing long video descriptions into ~100 words while keeping it informative, engaging, and compliant with YouTube's terms.
+    2. Writing attention-grabbing video hooks based on a title or headline that encourage viewers to watch the video, without being clickbait or misleading.
+    3. Generating relevant and trending hashtags related to the video's topic, using a mix of general and niche-specific tags, capped at 15.
+
+    Maintain a neutral, informative tone, avoid sensationalism or controversial phrasing, and ensure the content is safe for general audiences.
+    Output must be structured clearly for each task.
+    ."""
     for attempt in range(retries):
         try:
             response = client.models.generate_content(
@@ -74,6 +63,27 @@ def generate_summary(api_key, text):
     2. Use simple language
     3. Include key facts only and dont include hashtags"""
     return gemini_generate(api_key, prompt)
+
+def generate_hashtags(api_key, text, num_tags=10):
+    prompt = (
+        f"Generate {num_tags} relevant, trending, and YouTube-compliant hashtags for the following video description. "
+        "Return ONLY the hashtags as a Python list of strings, no explanations or extra text.\n\n"
+        f"Description:\n{text}\n"
+    )
+    hashtags_text = gemini_generate(api_key, prompt)
+    # Try to extract list from Gemini's output
+    try:
+        hashtags = eval(hashtags_text)
+        if isinstance(hashtags, list):
+            hashtags = [tag if tag.startswith("#") else "#" + tag.lstrip("#") for tag in hashtags]
+            return hashtags[:num_tags]
+    except Exception:
+        # Fallback: extract hashtags with regex
+        import re
+        hashtags = re.findall(r"#\w+", hashtags_text)
+        return hashtags[:num_tags]
+    return []
+
 
 def generate_hook(api_key, headline):
     prompt = f"""Convert this into a 5-word YouTube Shorts hook:
@@ -125,7 +135,7 @@ def main():
     print(f"\nGenerated summary:\n{summary}")
 
     print("\nStep 1.3: Generating hashtags...")
-    hashtags = generate_hashtags(description)
+    hashtags = generate_hashtags(args.gemini_api_key, description)
     print("Hashtags:", ", ".join(hashtags))
 
     print("\nStep 1.4: Generating YouTube hook with Gemini...")
