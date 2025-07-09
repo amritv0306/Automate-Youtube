@@ -49,6 +49,31 @@ def fetch_top_news(api_key, country="in", language="en", limit=5):
     # print(data)
     return data.get("results", [])[:limit]
 
+def process_title_with_gemini(api_key, raw_title):
+    prompt = (
+        "You are a helpful assistant. "
+        "Rewrite the following news headline to be a YouTube video title that strictly follows these rules:\n"
+        "1. Must be under 100 characters.\n"
+        "2. Use only plain ASCII characters (smart quotes, or non-English letters).\n"
+        "3. Avoid using single (') or double (\") quotes unless absolutely necessary.\n"
+        "4. The title must be clear and engaging for a general audience.\n"
+        "5. Add an emoji at the end of the title to make it more engaging.\n"
+        "6. Respond the revised title, nothing else.\n\n"
+        f"Original headline:\n{raw_title}"
+    )
+    title = gemini_generate(api_key, prompt)
+    # Ensure ASCII and length after Gemini
+    import unicodedata
+    title_ascii = unicodedata.normalize('NFKD', title).encode('ascii', 'ignore').decode('ascii')
+    title_ascii = title_ascii.replace('“', '"').replace('”', '"').replace("‘", "'").replace("’", "'")
+    # Remove quotes if present at start/end
+    title_ascii = title_ascii.strip(' "\'')
+    # Trim to 100 chars max
+    if len(title_ascii) > 100:
+        title_ascii = title_ascii[:100].rstrip()
+    return title_ascii
+
+
 def process_description(text, max_words=1000):
     words = (text or "").split()
     if len(words) > max_words:
@@ -61,7 +86,8 @@ def generate_summary(api_key, text):
     Rules:
     1. Keep strictly 100 words
     2. Use simple language
-    3. Include key facts only and dont include hashtags"""
+    3. Include key facts only and dont include hashtags
+    4. Don't include any punctuation, quotes, can include fullstops. """
     return gemini_generate(api_key, prompt)
 
 def generate_hashtags(api_key, text, num_tags=10):
@@ -125,6 +151,8 @@ def main():
 
     print(f"\nSelected news with the longest description:\nTitle: {selected_news.get('title')}\nDescription length: {len(selected_news.get('description').split())} words")
 
+    processed_title = process_title_with_gemini(args.gemini_api_key, selected_news.get("title", ""))
+
     description_raw = selected_news.get("description", "")
     description = process_description(description_raw, 1000)
 
@@ -143,7 +171,7 @@ def main():
     print("Generated hook:", hook)
 
     output = {
-        "title": selected_news.get("title"),
+        "title": processed_title,
         "description": summary,
         "tags": hashtags,
         "hook": hook
