@@ -41,7 +41,7 @@ def run_step1_1(gemini_api_key, newsdata_api_key, output_file="news_output.json"
     logging.info("\n=== STEP 1: Generating Trending News using step1_1.py ===")
     result = subprocess.run(
         [
-            sys.executable, "step1_1.py",
+            sys.executable, "step1_1.py", # fle name changed from step1_1.py to step1_news_gen.py.
             "--gemini_api_key", gemini_api_key,
             "--newsdata_api_key", newsdata_api_key,
             "--output", output_file
@@ -99,7 +99,7 @@ def run_step2_1(input_video, description, output_video, elevenlabs_api_key):
     
     result = subprocess.run(
         [
-            sys.executable, "step2_1.py",
+            sys.executable, "step2_1.py", #file name changed from step2_1.py to step4_audio_caption.py.
             "--video", input_video,
             "--text", description,
             "--output", output_video,
@@ -122,7 +122,7 @@ def run_step3(final_video, title, description, tags, client_secret="client_secre
     tags_str = ",".join(tags)
     result = subprocess.run(
         [
-            sys.executable, "step3.py",
+            sys.executable, "step3.py", #file name changed from step3.py to step5_final_upload.py.
             "--file", final_video,
             "--title", title,
             "--description", description,

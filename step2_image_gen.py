@@ -4,15 +4,9 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 import argparse
 
-# --- CONFIGURATION ---
-# NEWS_JSON = "news_output.json"
 
-SAVE_FOLDER = "generated_images"
-NUM_IMAGES = 5
-
-# --- Gemini Prompt Generation (Replace with your Gemini function as needed) ---
 def gemini_generate(api_key, title, description):
-    # Replace this with your actual Gemini API call if available
+    # have to replace this with your actual Gemini API call if available
     # Here, we simulate a Gemini-generated prompt for demonstration
     prompt = (
         f"Create a vivid, detailed image prompt that visually represents the news titled '{title}'. "
@@ -81,6 +75,8 @@ def main():
 
     IMAGEROUTER_API_KEY = args.imagerouter_api_key
     GEMINI_API_KEY = args.gemini_api_key
+    SAVE_FOLDER = "generated_images"
+    NUM_IMAGES = 5
 
     if not IMAGEROUTER_API_KEY:
         raise ValueError("IMAGEROUTER_API_KEY environment variable is not set")
