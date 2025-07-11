@@ -1,0 +1,8 @@
+requests
+google-auth-oauthlib
+google-api-python-client
+moviepy
+elevenlabs
+whisperx
+torch
+google-generativeai
