@@ -141,7 +141,9 @@ def main():
     print("\nFetched news headlines and description lengths:")
     for idx, n in enumerate(news_list, 1):
         desc_len = len((n.get('description') or '').split())
-        print(f"{idx}. {n.get('title', '')} | Description words: {desc_len}")
+        # print(f"{idx}. {n.get('title', '')} | Description words: {desc_len}")
+        print(f"{idx}. {n.get('title', '')} | Description words: {desc_len}".encode('ascii', errors='ignore').decode('ascii'))
+
 
     # Select the article with the longest description
     news_with_desc = [n for n in news_list if n.get("description")]
