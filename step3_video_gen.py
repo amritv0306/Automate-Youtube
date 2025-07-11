@@ -33,7 +33,16 @@ def build_video_clips(image_files, video_duration, segment_duration):
             clips.append(clip)
     return clips
 
-def create_video_from_images(image_folder, output_video, video_duration=60, segment_duration=3):
+def delete_images_in_folder(image_folder):
+    """Delete all image files in the given folder."""
+    for fname in os.listdir(image_folder):
+        if fname.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
+            try:
+                os.remove(os.path.join(image_folder, fname))
+            except Exception as e:
+                print(f"Failed to delete {fname}: {e}")
+
+def create_video_from_images(image_folder, output_video, video_duration=60, segment_duration=10):
     """
     Main function to create a video from shuffled images.
     """
@@ -49,10 +58,17 @@ def create_video_from_images(image_folder, output_video, video_duration=60, segm
     final_clip.write_videofile(output_video, fps=24)
     print(f"Video saved as {output_video}")
 
+    # Only delete images if the video file was created successfully
+    if os.path.exists(output_video):
+        delete_images_in_folder(image_folder)
+        print(f"Deleted all images in '{image_folder}' after successful video creation.")
+    else:
+        print("Video creation failed; images were not deleted.")
+
 def main():
     parser = argparse.ArgumentParser(description="Create a 1-minute video from images, shuffling every 10 seconds.")
     parser.add_argument("--image_folder", default="generated_images", help="Folder containing images (default: generated_images)")
-    parser.add_argument("--output_video", default="final_video.mp4", help="Output video filename (default: final_video.mp4)")
+    parser.add_argument("--output_video", default="generated_video.mp4", help="Output video filename (default: generated_video.mp4)")
     parser.add_argument("--video_duration", type=int, default=60, help="Total video duration in seconds (default: 60)")
     parser.add_argument("--segment_duration", type=int, default=10, help="Shuffle order every N seconds (default: 10)")
     args = parser.parse_args()

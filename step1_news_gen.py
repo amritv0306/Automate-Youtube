@@ -87,7 +87,8 @@ def generate_summary(api_key, text):
     1. Keep strictly 100 words
     2. Use simple language
     3. Include key facts only and dont include hashtags
-    4. Don't include any punctuation, quotes, can include fullstops. """
+    4. Don't include any quotes. 
+    5. Don't include \" or ' characters and its correspinding encodings like &quot; or &#39;"""
     return gemini_generate(api_key, prompt)
 
 def generate_hashtags(api_key, text, num_tags=10):

@@ -61,6 +61,7 @@ def generate_image(prompt, api_key, idx, save_folder):
 
 # --- Main Execution ---
 def main():
+    print("Starting main function...")
     # Create argument parser
     parser = argparse.ArgumentParser(description="Generates images based on news data using Imagerouter.io and Gemini API.")
 
