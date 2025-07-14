@@ -1,46 +1,46 @@
-2025-07-11 20:27:48,209 [INFO] 
+2025-07-15 01:23:48,828 [INFO] 
 === STEP 1: Generating Trending News using step1_news_gen.py ===
-2025-07-11 20:28:15,954 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
+2025-07-15 01:24:14,580 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
 
 Fetched news headlines and description lengths:
-1. Shehnaaz Gill drops studio pic with Honey Singh, hails him as Naaz of Punjabi industry | Description words: 0
-2. Nothing silky, smooth for sericulture farmers in Andhra Pradesh | Description words: 73
-3. ENG vs IND, 3rd Test: Nitish Reddy relishes fruits of hard work and wisdom from Cummins against England | Description words: 28
-4. We Are Not Giving Up: Kapil Sharma, Wife Ginni Chatraths Kaps Cafe Issues First Statement After Gunfire Attack In Canada | Description words: 63
-5. 'In Shock, But...': Kapil Sharma-Owned Kap's Cafe's First Reaction After Shooting | Description words: 29
+1. Vivo X200 FE, Priced At Rs 54,999, With Zeiss Cameras, Massive 6,500mAh Battery, Launched In India | Description words: 13
+2. Saregama India announces resignation of company secretary and compliance officer | Description words: 6
+3. Mumbai: Viral Video Shows Narrow & Unclean Footpath On Andheri's Gokhale Bridge, Inaugurated 2 Months Ago; Netizens Call It 'Gutkhafied' | Description words: 0
+4. South Mumbai to Get Underground Metro? Line 11 to Connect THESE Key Routes | Description words: 32
+5. Omar Abdullah scales wall to pay tribute to Martyrs' Day victims: 'Was not going to be stopped' | Watch | Description words: 0
 
 Selected news with the longest description:
-Title: Nothing silky, smooth for sericulture farmers in Andhra Pradesh
-Description length: 73 words
+Title: South Mumbai to Get Underground Metro? Line 11 to Connect THESE Key Routes
+Description length: 32 words
 
 Step 1.2: Generating YouTube description with Gemini...
 
 Generated summary:
-Chebrolu, a major mulberry cultivation area in Andhra Pradesh, faces a sericulture crisis.  A disease crippling silkworms, coupled with limited market access and government aid, has pushed many farmers to abandon silk production for cotton and oil palm.  This devastating combination threatens Chebrolu's dream of becoming the state's Silk City.  The documentary explores the challenges faced by these farmers and their struggle for survival in the face of adversity.  Discover their resilience and the fight to preserve a vital part of Andhra's heritage.  Learn about the economic hardships and the potential loss of a traditional craft.
+Mumbai's Metro Line 11 plans to revolutionize commuting!  This 17.5 km underground line will stretch from Anik Depot to the iconic Gateway of India, significantly improving connectivity across the city.  The MMRCL's ambitious project aims to serve over 800,000 daily commuters, connecting major transit hubs.  Currently awaiting government approvals, this project promises a faster, more efficient travel experience for Mumbaikars.  Learn more about this game-changing infrastructure development and its potential impact on Mumbai's transportation network.  Stay tuned for updates on the project's progress and expected completion date.  This is a vital step towards easing traffic congestion and modernizing Mumbai's public transportation system.  Find out how this new metro line will shape the future of Mumbai's commute.
 
 Step 1.3: Generating hashtags...
-Hashtags: #sericulture, #silkfarmers, #andhra, #indianagriculture, #chebrolu, #silkindustry, #indiansilk, #agriculturecrisis, #ruraleconomy, #documentary
+Hashtags: #MumbaiMetro, #MetroLine11, #MMRCL, #MumbaiInfrastructure, #MassTransit, #UrbanDevelopment, #GatewayOfIndia, #AnikDepot, #IndiaInfrastructure, #MumbaiTransportation
 
 Step 1.4: Generating YouTube hook with Gemini...
-Generated hook: Andhra's silk farmers face hardship.
+Generated hook: Mumbai Metro: Underground Line 11 Coming!
 
 All done! Output saved to news_output.json
 
-2025-07-11 20:28:17,962 [INFO] 
+2025-07-15 01:24:16,600 [INFO] 
 === STEP 2: Generating Images using News Description ===
-2025-07-11 20:28:29,443 [INFO] Starting main function...
-Saved image 3 to generated_images\image_3.png
-Saved image 4 to generated_images\image_4.png
+2025-07-15 01:24:32,415 [INFO] Starting main function...
+No images returned for prompt 3
 Saved image 5 to generated_images\image_5.png
-Saved image 2 to generated_images\image_2.png
+Saved image 4 to generated_images\image_4.png
 Saved image 1 to generated_images\image_1.png
+Saved image 2 to generated_images\image_2.png
 
 All images saved in the 'generated_images' folder.
 
-2025-07-11 20:28:29,443 [INFO] All images generated and saved to 'generated_images'.
-2025-07-11 20:28:31,456 [INFO] 
+2025-07-15 01:24:32,415 [INFO] All images generated and saved to 'generated_images'.
+2025-07-15 01:24:34,418 [INFO] 
 === STEP 3: Creating Video from Generated Images ===
-2025-07-11 20:29:18,680 [INFO] Found 5 images in 'generated_images'.
+2025-07-15 01:25:16,175 [INFO] Found 4 images in 'generated_images'.
 Moviepy - Building video temp_video_without_audio.mp4.
 Moviepy - Writing video temp_video_without_audio.mp4
 
@@ -49,11 +49,11 @@ Moviepy - video ready temp_video_without_audio.mp4
 Video saved as temp_video_without_audio.mp4
 Deleted all images in 'generated_images' after successful video creation.
 
-2025-07-11 20:29:18,680 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
-2025-07-11 20:29:18,680 [INFO] 
+2025-07-15 01:25:16,175 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
+2025-07-15 01:25:16,175 [INFO] 
 === STEP 4: Adding Captions and Speech to Video ===
-2025-07-11 20:29:18,680 [INFO] Selected voice: Brian (ID: nPczCjzI2devNBz1zQrb)
-2025-07-11 20:31:02,513 [INFO] Speech audio saved to: temp_speech.mp3
+2025-07-15 01:25:16,175 [INFO] Selected voice: Alice (ID: Xb7hH8MSUJpSbSDYk0k2)
+2025-07-15 01:28:13,542 [INFO] Speech audio saved to: temp_speech.mp3
 Moviepy - Building video temp_video_with_speech.mp4.
 MoviePy - Writing audio in temp_video_with_speechTEMP_MPY_wvf_snd.mp4
 MoviePy - Done.
@@ -68,19 +68,19 @@ Model was trained with pyannote.audio 0.0.1, yours is 3.3.2. Bad things might ha
 Model was trained with torch 1.10.0+cu102, yours is 2.7.1+cpu. Bad things might happen unless you revert torch to 1.x.
 Final video with captions saved to: final_output.mp4
 
-2025-07-11 20:31:04,518 [INFO] 
+2025-07-15 01:28:15,547 [INFO] 
 === STEP 5: Uploading Video to YouTube Shorts ===
-2025-07-11 20:31:26,141 [INFO] Validating video... Duration: 38.50 seconds.
+2025-07-15 01:28:40,398 [INFO] Validating video... Duration: 58.79 seconds.
 
 Authenticating with YouTube...
-Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=685844118333-r0ohilv6dcuj5295sh0io2jtq16q5192.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload&state=buutlQbfZ5zJPPJDvQf6b3vef7EZTn&access_type=offline
+Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=685844118333-r0ohilv6dcuj5295sh0io2jtq16q5192.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload&state=OBo5Xjrz6u67YzqWDUejvEfCN9pFqj&access_type=offline
 Appended #Shorts to title.
 Appended hastags to description.
 Added 'shorts' to tags.
 
 Uploading file: final_output.mp4...
-Upload Complete! Video ID: 6UynsR2DvFE
+Upload Complete! Video ID: 3yjjh0uKJk4
 
-Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/6UynsR2DvFE
+Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/3yjjh0uKJk4
 
-2025-07-11 20:31:26,141 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===
+2025-07-15 01:28:40,398 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===

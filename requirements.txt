@@ -1,8 +1,8 @@
-requests
-google-auth-oauthlib
-google-api-python-client
-moviepy
-elevenlabs
-whisperx
-torch
-google-generativeai
+elevenlabs #(2.3.0)
+google-api-python-client #(2.172.0)
+google-auth-oauthlib #(1.2.2)
+google-generativeai #(0.8.5)
+moviepy #(1.0.3)
+requests #(2.32.4)
+torch #(2.7.1)
+whisperx #(3.4.1)
