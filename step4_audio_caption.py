@@ -1,10 +1,11 @@
 import os
 from elevenlabs import ElevenLabs
-from moviepy.editor import VideoFileClip, AudioFileClip
+from moviepy.editor import VideoFileClip, AudioFileClip, ImageClip, concatenate_videoclips
 import whisperx
 import torch
 import argparse
 import subprocess
+
 
 def text_to_speech_elevenlabs(text, output_audio_path, api_key, voice_id):
     client = ElevenLabs(api_key=api_key)
@@ -61,8 +62,22 @@ def burn_captions_ffmpeg(video_path, srt_path, output_path):
     subprocess.run(ffmpeg_cmd, check=True)
     print(f"Final video with captions saved to: {output_path}")
 
+def append_ending_image_to_video(main_video_path, ending_image_path, output_video_path, duration=2.5):
+    # Load main video and ending image
+    video = VideoFileClip(main_video_path)
+    ending_clip = ImageClip(ending_image_path, duration=duration)
+    ending_clip = ending_clip.set_duration(duration).set_fps(video.fps)
+    try:
+        ending_clip = ending_clip.resize(height=video.h)
+    except Exception:
+        pass
+    # Concatenate video and ending image
+    final = concatenate_videoclips([video, ending_clip], method="compose")
+    final.write_videofile(output_video_path, codec="libx264", audio_codec="aac")
+    print(f"Appended ending image to create: {output_video_path}")
+
 def main():
-    parser = argparse.ArgumentParser(description="Add ElevenLabs speech and WhisperX captions to a video.")
+    parser = argparse.ArgumentParser(description="Add ElevenLabs speech and WhisperX captions to a video, with an ending image.")
     parser.add_argument("--video", required=True, help="Input video file")
     parser.add_argument("--text", required=True, help="Text to convert to speech")
     parser.add_argument("--output", default="final_output.mp4", help="Final output video file")
@@ -74,14 +89,20 @@ def main():
     temp_audio = "temp_speech.mp3"
     temp_video = "temp_video_with_speech.mp4"
     temp_srt = "temp_captions.srt"
+    intermediate_output = "final_no_ending.mp4"
+    ending_image_path = os.path.join("pipeline_images", "endingImgaeEnhanced.png")
 
+    # synthesize speech and add audio to video
     text_to_speech_elevenlabs(args.text, temp_audio, args.api_key, args.voice_id)
     add_audio_to_video(args.video, temp_audio, temp_video)
     generate_srt_with_whisperx(temp_audio, temp_srt)
-    burn_captions_ffmpeg(temp_video, temp_srt, args.output)
+    burn_captions_ffmpeg(temp_video, temp_srt, intermediate_output)
+
+    # Append the ending image
+    append_ending_image_to_video(intermediate_output, ending_image_path, args.output, duration=2.5)
 
     # Clean up
-    for f in [temp_audio, temp_video, temp_srt]:
+    for f in [temp_audio, temp_video, temp_srt, intermediate_output]:
         if os.path.exists(f):
             os.remove(f)
 

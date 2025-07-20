@@ -30,7 +30,10 @@ def generate_image(prompt, api_key, idx, save_folder):
     url = "https://api.imagerouter.io/v1/openai/images/generations"
     payload = {
         "prompt": prompt,
-        "model": "google/gemini-2.0-flash-exp:free"
+        "model": "google/gemini-2.0-flash-exp:free",
+        # "size": "1080x1920",
+        # "width": 1080,
+        # "height": 1920
     }
     headers = {
         "Authorization": f"Bearer {api_key}",
