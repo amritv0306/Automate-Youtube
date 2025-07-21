@@ -20,80 +20,87 @@ logging.basicConfig(
     ]
 )
 
+def run_with_retries(command, step_name, max_retries=3, delay=5):
+    """Runs a command with a retry mechanism."""
+    for attempt in range(max_retries):
+        logging.info(f"--- Running {step_name}: Attempt {attempt + 1} of {max_retries} ---")
+        # Use utf-8 encoding for cross-platform compatibility
+        result = subprocess.run(command, capture_output=True, text=True, encoding='utf-8')
+
+        if result.returncode == 0:
+            logging.info(f"--- {step_name} completed successfully. ---")
+            logging.info(result.stdout)
+            return result
+
+        logging.warning(f"--- {step_name} failed on attempt {attempt + 1}. Return code: {result.returncode} ---")
+        logging.warning(f"Stderr: {result.stderr}")
+
+        if attempt < max_retries - 1:
+            logging.info(f"Retrying in {delay} seconds...")
+            time.sleep(delay)
+        else:
+            logging.error(f"All {max_retries} attempts failed for {step_name}. Exiting pipeline.")
+            sys.exit(1)
+
+
 def run_step1(gemini_api_key, newsdata_api_key, output_file="news_output.json"):
-    logging.info("\n=== STEP 1: Generating Trending News using step1_news_gen.py ===")
-    result = subprocess.run(
-        [
-            sys.executable, "step1_news_gen.py",
-            "--gemini_api_key", gemini_api_key,
-            "--newsdata_api_key", newsdata_api_key,
-            "--output", output_file
-        ],
-        capture_output=True, text=True
-    )
-    logging.info(result.stdout)
-    if result.returncode != 0:
-        logging.info(f"Error in step1_news_gen.py: {result.stderr}")
-        sys.exit(1)
+    step_name = "STEP 1: Generating Trending News"
+    command = [
+        sys.executable, "step1_news_gen.py",
+        "--gemini_api_key", gemini_api_key,
+        "--newsdata_api_key", newsdata_api_key,
+        "--output", output_file
+    ]
+    run_with_retries(command, step_name)
+
     if not os.path.exists(output_file):
-        logging.error(f"Error: {output_file} not found after step1_news_gen.py")
+        logging.error(f"Error: {output_file} not found after {step_name}")
         sys.exit(1)
     with open(output_file, "r", encoding="utf-8") as f:
         news_info = json.load(f)
     return news_info
 
 def run_step2(gemini_api_key, imagerouter_api_key, news_file="news_output.json", save_folder="generated_images"):
-    logging.info("\n=== STEP 2: Generating Images using News Description ===")
-    result = subprocess.run(
-        [
-            sys.executable, "step2_image_gen.py",
-            "--gemini_api_key", gemini_api_key,
-            "--imagerouter_api_key", imagerouter_api_key,
-            "--news_file", news_file
-        ],
-        capture_output=True, text=True
-    )
-    logging.info(result.stdout)
-    if result.returncode != 0:
-        logging.error(f"Error in step2_image_gen.py: {result.stderr}")
-        sys.exit(1)
+    step_name = "STEP 2: Generating Images"
+    command = [
+        sys.executable, "step2_image_gen.py",
+        "--gemini_api_key", gemini_api_key,
+        "--imagerouter_api_key", imagerouter_api_key,
+        "--news_file", news_file
+    ]
+    run_with_retries(command, step_name)
+
     if not os.path.exists(save_folder) or not os.listdir(save_folder):
-        logging.error(f"Error: No images found in '{save_folder}' after step2_image_gen.py")
+        logging.error(f"Error: No images found in '{save_folder}' after {step_name}")
         sys.exit(1)
     logging.info(f"All images generated and saved to '{save_folder}'.")
     return save_folder
 
 def run_step3(image_folder, output_video="temp_video_without_audio.mp4", video_duration=60, segment_duration=10):
-    logging.info("\n=== STEP 3: Creating Video from Generated Images ===")
-    result = subprocess.run(
-        [
-            sys.executable, "step3_video_gen.py",
-            "--image_folder", image_folder,
-            "--output_video", output_video,
-            "--video_duration", str(video_duration),
-            "--segment_duration", str(segment_duration)
-        ],
-        capture_output=True, text=True
-    )
-    logging.info(result.stdout)
-    if result.returncode != 0:
-        logging.error(f"Error in step3_video_gen.py: {result.stderr}")
-        sys.exit(1)
+    step_name = "STEP 3: Creating Video from Images"
+    command = [
+        sys.executable, "step3_video_gen.py",
+        "--image_folder", image_folder,
+        "--output_video", output_video,
+        "--video_duration", str(video_duration),
+        "--segment_duration", str(segment_duration)
+    ]
+    run_with_retries(command, step_name)
+
     if not os.path.exists(output_video):
-        logging.error(f"Error: Video file '{output_video}' not found after step3_video_gen.py")
+        logging.error(f"Error: Video file '{output_video}' not found after {step_name}")
         sys.exit(1)
     logging.info(f"Video created and saved as '{output_video}'.")
     return output_video
 
 def run_step4(input_video, description, output_video, elevenlabs_api_key):
-    logging.info("\n=== STEP 4: Adding Captions and Speech to Video ===")
+    step_name = "STEP 4: Adding Captions and Speech"
     voices = {
         "Liam": "TX3LPaxmHKxFdv7VOQHJ",
         "Alice": "Xb7hH8MSUJpSbSDYk0k2",
         "Aria": "9BWtsMINqrJLrRacOk9x",
         "Bill": "pqHfZKP75CvOlQylNhV4",
         "Brian": "nPczCjzI2devNBz1zQrb",
-        # "Grandpa": "NOpBlnGInO9m6vDvFkFC",
         "Mark": "UgBBYS2sOqTuMpoF3BR0",
         "Cassidy": "56AoDkrOh6qfVPDXZ7Pt"
     }
@@ -101,45 +108,36 @@ def run_step4(input_video, description, output_video, elevenlabs_api_key):
     voice_id = voices[voice_name]
     logging.info("Selected voice: %s (ID: %s)", voice_name, voice_id)
     
-    result = subprocess.run(
-        [
-            sys.executable, "step4_audio_caption.py",
-            "--video", input_video,
-            "--text", description,
-            "--output", output_video,
-            "--api_key", elevenlabs_api_key,
-            "--voice_id", voice_id
-        ],
-        capture_output=True, text=True
-    )
-    logging.info(result.stdout)
-    if result.returncode != 0:
-        logging.error("Error in step4_audio_caption.py: %s", result.stderr)
-        sys.exit(2)
+    command = [
+        sys.executable, "step4_audio_caption.py",
+        "--video", input_video,
+        "--text", description,
+        "--output", output_video,
+        "--api_key", elevenlabs_api_key,
+        "--voice_id", voice_id
+    ]
+    run_with_retries(command, step_name)
+
     if not os.path.exists(output_video):
-        logging.error("Error: %s not found after step4_audio_caption.py", output_video)
+        logging.error("Error: %s not found after %s", output_video, step_name)
         sys.exit(2)
     return output_video
 
 def run_step5(final_video, title, description, tags, client_secret="client_secret.json"):
-    logging.info("\n=== STEP 5: Uploading Video to YouTube Shorts ===")
+    step_name = "STEP 5: Uploading to YouTube"
     tags_str = ",".join(tags)
-    result = subprocess.run(
-        [
-            sys.executable, "step5_final_upload.py",
-            "--file", final_video,
-            "--title", title,
-            "--description", description,
-            "--tags", tags_str,
-            "--category", "22",
-            "--privacy", "public"
-        ],
-        capture_output=True, text=True
-    )
-    logging.info(result.stdout)
-    if result.returncode != 0:
-        logging.error("Error in step5_final_upload.py: %s", result.stderr)
-        sys.exit(3) 
+    command = [
+        sys.executable, "step5_final_upload.py",
+        "--file", final_video,
+        "--title", title,
+        "--description", description,
+        "--tags", tags_str,
+        "--category", "22",
+        "--privacy", "public"
+    ]
+
+    run_with_retries(command, step_name)
+    logging.info("YouTube upload process completed.")
 
 def main():
     # ---- USER CONFIGURATION ----
@@ -173,5 +171,5 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as e:
-        logging.error("An error occurred: %s", str(e))
+        logging.error("An unhandled error occurred in main: %s", str(e))
         sys.exit(1)
