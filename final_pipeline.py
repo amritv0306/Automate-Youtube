@@ -6,6 +6,7 @@ import os
 import logging
 from dotenv import load_dotenv
 import random
+import datetime
 
 load_dotenv()
 
@@ -140,7 +141,7 @@ def run_step5(final_video, title, description, tags, client_secret="client_secre
     logging.info("YouTube upload process completed.")
 
 def main():
-    # ---- USER CONFIGURATION ----
+    # ---- API Key Loading ----
     NEWSDATA_API_KEY = os.getenv("NEWSDATA_API_KEY")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  
     IMAGEROUTER_API_KEY = os.getenv("IMAGEROUTER_API_KEY")
@@ -156,10 +157,12 @@ def main():
     current_day = datetime.datetime.now().day
     if 2 <= current_day <= 16:
         active_elevenlabs_key = ELEVENLABS_API_KEY_2
-        logging.info("Using ElevenLabs Key that resets on the 2nd (for days 2-16).")
+        key_using = 2
+        # logging.info("Using ElevenLabs Key that resets on the 2nd (for days 2-16).")
     else:
         active_elevenlabs_key = ELEVENLABS_API_KEY_1
-        logging.info("Using ElevenLabs Key that resets on the 17th (for days 17-1).")
+        key_using = 1
+        # logging.info("Using ElevenLabs Key that resets on the 17th (for days 17-1).")
 
     NEWS_JSON = "news_output.json"
     FINAL_VIDEO = "final_output.mp4"
@@ -172,7 +175,9 @@ def main():
 
     generated_video = run_step3(image_folder=generated_images_folder)
 
-    final_video = run_step4(generated_video, news_info["description"], FINAL_VIDEO, ELEVENLABS_API_KEY)
+    # Passing dynamically selected ElevenLabs key
+    logging.info(f"Using ElevenLabs Key {key_using} for this run.")
+    final_video = run_step4(generated_video, news_info["description"], FINAL_VIDEO, active_elevenlabs_key)
     time.sleep(2)
 
     run_step5(
