@@ -144,7 +144,23 @@ def main():
     NEWSDATA_API_KEY = os.getenv("NEWSDATA_API_KEY")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  
     IMAGEROUTER_API_KEY = os.getenv("IMAGEROUTER_API_KEY")
-    ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
+
+    # --- ElevenLabs Key Rotation Logic ---
+    ELEVENLABS_API_KEY_1 = os.getenv("ELEVENLABS_API_KEY_1")
+    ELEVENLABS_API_KEY_2 = os.getenv("ELEVENLABS_API_KEY_2")
+
+    if not all([ELEVENLABS_API_KEY_1, ELEVENLABS_API_KEY_2]):
+        logging.error("Both ELEVENLABS_API_KEY_1 and ELEVENLABS_API_KEY_2 must be set in the .env file.")
+        sys.exit(1)
+
+    current_day = datetime.datetime.now().day
+    if 2 <= current_day <= 16:
+        active_elevenlabs_key = ELEVENLABS_API_KEY_2
+        logging.info("Using ElevenLabs Key that resets on the 2nd (for days 2-16).")
+    else:
+        active_elevenlabs_key = ELEVENLABS_API_KEY_1
+        logging.info("Using ElevenLabs Key that resets on the 17th (for days 17-1).")
+
     NEWS_JSON = "news_output.json"
     FINAL_VIDEO = "final_output.mp4"
 
