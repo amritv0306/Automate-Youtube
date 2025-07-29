@@ -1,21 +1,46 @@
-2025-07-29 19:04:01,329 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
-2025-07-29 19:04:25,411 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
-2025-07-29 19:04:25,411 [INFO] None
-2025-07-29 19:04:27,434 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
-2025-07-29 19:04:44,360 [INFO] --- STEP 2: Generating Images completed successfully. ---
-2025-07-29 19:04:44,360 [INFO] Starting main function...
+2025-07-29 23:26:11,707 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
+2025-07-29 23:26:34,972 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
+2025-07-29 23:26:34,972 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
+
+Fetched news headlines and description lengths:
+1. What happens if a baby is born in space? Scientist explains | Description words: 28
+2. Opposition Continues Protest Against Bihar SIR | Description words: 23
+3. 'Batting always one step behind' but captain Shai Hope happy with bowling attack | Description words: 15
+4. Manhattan shooting: How a Bangladeshi immigrant's heroic sacrifice saved many lives | Description words: 53
+5. France calls on EU to pressure Israel to come to table on Palestinian two-state solution | Description words: 15
+
+Selected news with the longest description:
+Title: Manhattan shooting: How a Bangladeshi immigrant's heroic sacrifice saved many lives
+Description length: 53 words
+
+Step 1.2: Generating YouTube description with Gemini...
+
+Generated summary:
+Tragedy struck 345 Park Avenue when off-duty NYPD Officer Islam bravely confronted an armed gunman.  While working private security at the Blackstone Group and NFL headquarters building, Officer Islam was fatally shot.  His selfless act underscores the risks faced by law enforcement officers, even outside of active duty.  This video pays tribute to his sacrifice and explores the circumstances surrounding this devastating event. We remember Officer Islam's courage and commitment to protecting others.  His dedication to duty will not be forgotten.  Learn more about this heartbreaking incident and the life of a fallen hero.  Support the family during this difficult time.
+
+Step 1.3: Generating hashtags...
+Hashtags: #OffDutyHero, #NYPD, #BlackstoneGroup, #ParkAvenueShooting, #BraveOfficer, #FallenHero, #GunViolence, #NYC, #PoliceOfficer, #SecurityGuard
+
+Step 1.4: Generating YouTube hook with Gemini...
+Generated hook: Heroic immigrant saves lives in Manhattan.
+
+All done! Output saved to news_output.json
+
+2025-07-29 23:26:37,020 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
+2025-07-29 23:26:54,668 [INFO] --- STEP 2: Generating Images completed successfully. ---
+2025-07-29 23:26:54,668 [INFO] Starting main function...
+No images returned for prompt 5
 Saved image 3 to generated_images\image_3.png
-Saved image 1 to generated_images\image_1.png
 Saved image 2 to generated_images\image_2.png
-Saved image 5 to generated_images\image_5.png
+Saved image 1 to generated_images\image_1.png
 Saved image 4 to generated_images\image_4.png
 
 All images saved in the 'generated_images' folder.
 
-2025-07-29 19:04:44,360 [INFO] All images generated and saved to 'generated_images'.
-2025-07-29 19:04:46,365 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
-2025-07-29 19:05:24,007 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
-2025-07-29 19:05:24,007 [INFO] Found 5 images in 'generated_images'.
+2025-07-29 23:26:54,668 [INFO] All images generated and saved to 'generated_images'.
+2025-07-29 23:26:56,675 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
+2025-07-29 23:28:09,688 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
+2025-07-29 23:28:09,688 [INFO] Found 4 images in 'generated_images'.
 Moviepy - Building video temp_video_without_audio.mp4.
 Moviepy - Writing video temp_video_without_audio.mp4
 
@@ -24,12 +49,12 @@ Moviepy - video ready temp_video_without_audio.mp4
 Video saved as temp_video_without_audio.mp4
 Deleted all images in 'generated_images' after successful video creation.
 
-2025-07-29 19:05:24,009 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
-2025-07-29 19:05:24,009 [INFO] Using ElevenLabs Key 1 for this run.
-2025-07-29 19:05:24,009 [INFO] Selected voice: Cassidy (ID: 56AoDkrOh6qfVPDXZ7Pt)
-2025-07-29 19:05:24,009 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
-2025-07-29 19:08:26,379 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
-2025-07-29 19:08:26,386 [INFO] Speech audio saved to: temp_speech.mp3
+2025-07-29 23:28:09,688 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
+2025-07-29 23:28:09,688 [INFO] Using ElevenLabs Key 1 for this run.
+2025-07-29 23:28:09,688 [INFO] Selected voice: Aria (ID: 9BWtsMINqrJLrRacOk9x)
+2025-07-29 23:28:09,688 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
+2025-07-29 23:32:14,776 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
+2025-07-29 23:32:14,776 [INFO] Speech audio saved to: temp_speech.mp3
 Moviepy - Building video temp_video_with_speech.mp4.
 MoviePy - Writing audio in temp_video_with_speechTEMP_MPY_wvf_snd.mp4
 MoviePy - Done.
@@ -52,20 +77,19 @@ Moviepy - Done !
 Moviepy - video ready final_output.mp4
 Appended ending image to create: final_output.mp4
 
-2025-07-29 19:08:28,390 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
-2025-07-29 19:10:01,512 [INFO] --- STEP 5: Uploading to YouTube completed successfully. ---
-2025-07-29 19:10:01,512 [INFO] Validating video... Duration: 46.08 seconds.
+2025-07-29 23:32:16,781 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
+2025-07-29 23:32:27,584 [INFO] --- STEP 5: Uploading to YouTube completed successfully. ---
+2025-07-29 23:32:27,584 [INFO] Validating video... Duration: 54.54 seconds.
 
 Authenticating with YouTube...
-Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=685844118333-r0ohilv6dcuj5295sh0io2jtq16q5192.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload&state=FDXyJbR6mqXnw5VgHDOYaywjtSk6D6&access_type=offline
 Appended #Shorts to title.
 Appended hastags to description.
 Added 'shorts' to tags.
 
 Uploading file: final_output.mp4...
-Upload Complete! Video ID: CiscRIH8ydc
+Upload Complete! Video ID: NjEgs6b7wQc
 
-Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/CiscRIH8ydc
+Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/NjEgs6b7wQc
 
-2025-07-29 19:10:01,512 [INFO] YouTube upload process completed.
-2025-07-29 19:10:01,512 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===
+2025-07-29 23:32:27,584 [INFO] YouTube upload process completed.
+2025-07-29 23:32:27,584 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===

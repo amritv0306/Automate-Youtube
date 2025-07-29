@@ -17,3 +17,6 @@ doubts.txt
 
 #test video
 testvideo2.mp4
+
+# token for automatic user authantication 
+token.json

@@ -1,27 +1,43 @@
-# step3.py: Uploads a pre-processed video to YouTube as a "Short".
+# Uploads a pre-processed video to YouTube as a "Short".
 # This script takes title, description, and tags as command-line arguments.
 
 import os
 import argparse
 from moviepy.editor import VideoFileClip
-from google_auth_oauthlib.flow import InstalledAppFlow
+import google.auth.transport.requests
+from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 # --- Constants ---
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
-CLIENT_SECRETS_FILE = "client_secret.json"
 API_SERVICE_NAME = "youtube"
 API_VERSION = "v3"
+CLIENT_SECRETS_FILE = "client_secret.json" # Needed to refresh the token
+TOKEN_FILE = "token.json" 
 
 
 # --- Helper and Authentication Functions ---
-
 def get_authenticated_service():
-    """Authenticates the user and builds the YouTube API service object."""
-    flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
-    credentials = flow.run_local_server(port=8080)
-    return build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
+    """Gets valid user credentials from a token file or refreshes them."""
+    creds = None
+    # The file token.json stores the user's access and refresh tokens.
+    if os.path.exists(TOKEN_FILE):
+        creds = Credentials.from_authorized_user_file(TOKEN_FILE, [ "https://www.googleapis.com/auth/youtube.upload"])
+    
+    # If there are no (valid) credentials available, something is wrong.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            print("Refreshing access token...")
+            creds.refresh(google.auth.transport.requests.Request())
+            # Save the new credentials for the next run
+            with open(TOKEN_FILE, 'w') as token_file:
+                token_file.write(creds.to_json())
+        else:
+            # This should not happen on the server. It means the token is missing or invalid.
+            print("Error: Could not find valid credentials. Please run '1_generate_token.py' locally first.")
+            return None
+
+    return build(API_SERVICE_NAME, API_VERSION, credentials=creds)
 
 def get_video_duration(video_path):
     """Returns the duration of a video file in seconds using moviepy."""
@@ -34,7 +50,6 @@ def get_video_duration(video_path):
 
 
 # --- YouTube Upload Function ---
-
 def upload_video_as_short(youtube, video_file, title, description, tags, category, privacy_status):
     """Uploads a video file to YouTube with the specified metadata."""
     
