@@ -6,6 +6,7 @@ myenv/
 
 # Google API credentials
 client_secret.json
+fully_autonomous_client_secret.json
 
 # test files
 test.py
