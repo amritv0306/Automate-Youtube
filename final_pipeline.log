@@ -1,21 +1,21 @@
-2025-07-22 23:46:03,103 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
-2025-07-22 23:46:21,826 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
-2025-07-22 23:46:21,827 [INFO] None
-2025-07-22 23:46:23,846 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
-2025-07-22 23:46:56,709 [INFO] --- STEP 2: Generating Images completed successfully. ---
-2025-07-22 23:46:56,709 [INFO] Starting main function...
-No images returned for prompt 4
-No images returned for prompt 3
-No images returned for prompt 2
+2025-07-29 19:04:01,329 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
+2025-07-29 19:04:25,411 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
+2025-07-29 19:04:25,411 [INFO] None
+2025-07-29 19:04:27,434 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
+2025-07-29 19:04:44,360 [INFO] --- STEP 2: Generating Images completed successfully. ---
+2025-07-29 19:04:44,360 [INFO] Starting main function...
+Saved image 3 to generated_images\image_3.png
 Saved image 1 to generated_images\image_1.png
+Saved image 2 to generated_images\image_2.png
 Saved image 5 to generated_images\image_5.png
+Saved image 4 to generated_images\image_4.png
 
 All images saved in the 'generated_images' folder.
 
-2025-07-22 23:46:56,709 [INFO] All images generated and saved to 'generated_images'.
-2025-07-22 23:46:58,720 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
-2025-07-22 23:48:02,137 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
-2025-07-22 23:48:02,137 [INFO] Found 2 images in 'generated_images'.
+2025-07-29 19:04:44,360 [INFO] All images generated and saved to 'generated_images'.
+2025-07-29 19:04:46,365 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
+2025-07-29 19:05:24,007 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
+2025-07-29 19:05:24,007 [INFO] Found 5 images in 'generated_images'.
 Moviepy - Building video temp_video_without_audio.mp4.
 Moviepy - Writing video temp_video_without_audio.mp4
 
@@ -24,12 +24,12 @@ Moviepy - video ready temp_video_without_audio.mp4
 Video saved as temp_video_without_audio.mp4
 Deleted all images in 'generated_images' after successful video creation.
 
-2025-07-22 23:48:02,137 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
-2025-07-22 23:48:02,137 [INFO] Using ElevenLabs Key 1 for this run.
-2025-07-22 23:48:02,137 [INFO] Selected voice: Cassidy (ID: 56AoDkrOh6qfVPDXZ7Pt)
-2025-07-22 23:48:02,137 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
-2025-07-22 23:51:08,052 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
-2025-07-22 23:51:08,068 [INFO] Speech audio saved to: temp_speech.mp3
+2025-07-29 19:05:24,009 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
+2025-07-29 19:05:24,009 [INFO] Using ElevenLabs Key 1 for this run.
+2025-07-29 19:05:24,009 [INFO] Selected voice: Cassidy (ID: 56AoDkrOh6qfVPDXZ7Pt)
+2025-07-29 19:05:24,009 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
+2025-07-29 19:08:26,379 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
+2025-07-29 19:08:26,386 [INFO] Speech audio saved to: temp_speech.mp3
 Moviepy - Building video temp_video_with_speech.mp4.
 MoviePy - Writing audio in temp_video_with_speechTEMP_MPY_wvf_snd.mp4
 MoviePy - Done.
@@ -52,20 +52,20 @@ Moviepy - Done !
 Moviepy - video ready final_output.mp4
 Appended ending image to create: final_output.mp4
 
-2025-07-22 23:51:10,073 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
-2025-07-22 23:56:23,422 [INFO] --- STEP 5: Uploading to YouTube completed successfully. ---
-2025-07-22 23:56:23,422 [INFO] Validating video... Duration: 39.67 seconds.
+2025-07-29 19:08:28,390 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
+2025-07-29 19:10:01,512 [INFO] --- STEP 5: Uploading to YouTube completed successfully. ---
+2025-07-29 19:10:01,512 [INFO] Validating video... Duration: 46.08 seconds.
 
 Authenticating with YouTube...
-Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=685844118333-r0ohilv6dcuj5295sh0io2jtq16q5192.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload&state=uphJJuOUdtlCNImhMG2Aek7t3YRsUw&access_type=offline
+Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=685844118333-r0ohilv6dcuj5295sh0io2jtq16q5192.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload&state=FDXyJbR6mqXnw5VgHDOYaywjtSk6D6&access_type=offline
 Appended #Shorts to title.
 Appended hastags to description.
 Added 'shorts' to tags.
 
 Uploading file: final_output.mp4...
-Upload Complete! Video ID: R9LMNnN5dIU
+Upload Complete! Video ID: CiscRIH8ydc
 
-Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/R9LMNnN5dIU
+Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/CiscRIH8ydc
 
-2025-07-22 23:56:23,425 [INFO] YouTube upload process completed.
-2025-07-22 23:56:23,425 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===
+2025-07-29 19:10:01,512 [INFO] YouTube upload process completed.
+2025-07-29 19:10:01,512 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===

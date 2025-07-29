@@ -43,7 +43,6 @@ def run_with_retries(command, step_name, max_retries=3, delay=5):
             logging.error(f"All {max_retries} attempts failed for {step_name}. Exiting pipeline.")
             sys.exit(1)
 
-
 def run_step1(gemini_api_key, newsdata_api_key, output_file="news_output.json"):
     step_name = "STEP 1: Generating Trending News"
     command = [
