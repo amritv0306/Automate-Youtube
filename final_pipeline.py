@@ -102,7 +102,8 @@ def run_step4(input_video, description, output_video, elevenlabs_api_key):
         "Bill": "pqHfZKP75CvOlQylNhV4",
         "Brian": "nPczCjzI2devNBz1zQrb",
         "Mark": "UgBBYS2sOqTuMpoF3BR0",
-        "Cassidy": "56AoDkrOh6qfVPDXZ7Pt"
+        "Cassidy": "56AoDkrOh6qfVPDXZ7Pt",
+        "Ziina": "FaqthkZu1EWxXxUFbAfb"
     }
     voice_name = random.choice(list(voices.keys()))
     voice_id = voices[voice_name]

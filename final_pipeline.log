@@ -1,46 +1,46 @@
-2025-07-29 23:26:11,707 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
-2025-07-29 23:26:34,972 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
-2025-07-29 23:26:34,972 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
+2025-08-01 15:55:27,001 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
+2025-08-01 15:55:52,587 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
+2025-08-01 15:55:52,587 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
 
 Fetched news headlines and description lengths:
-1. What happens if a baby is born in space? Scientist explains | Description words: 28
-2. Opposition Continues Protest Against Bihar SIR | Description words: 23
-3. 'Batting always one step behind' but captain Shai Hope happy with bowling attack | Description words: 15
-4. Manhattan shooting: How a Bangladeshi immigrant's heroic sacrifice saved many lives | Description words: 53
-5. France calls on EU to pressure Israel to come to table on Palestinian two-state solution | Description words: 15
+1. Gujar youth was killed in cold blood: Mehbooba | Description words: 28
+2. Food preference row at JNU hostel triggers uproar | Description words: 38
+3. Japans Dai-ichi Life Eyes M&A in Southeast Asia to Grow Abroad | Description words: 27
+4. Joel Dahmen's Bold Bid for the PGA Tour Postseason | Description words: 32
+5. Rape case: Bidar court rejects advance bail plea of Aurad MLA's son | Description words: 12
 
 Selected news with the longest description:
-Title: Manhattan shooting: How a Bangladeshi immigrant's heroic sacrifice saved many lives
-Description length: 53 words
+Title: Food preference row at JNU hostel triggers uproar
+Description length: 38 words
 
 Step 1.2: Generating YouTube description with Gemini...
 
 Generated summary:
-Tragedy struck 345 Park Avenue when off-duty NYPD Officer Islam bravely confronted an armed gunman.  While working private security at the Blackstone Group and NFL headquarters building, Officer Islam was fatally shot.  His selfless act underscores the risks faced by law enforcement officers, even outside of active duty.  This video pays tribute to his sacrifice and explores the circumstances surrounding this devastating event. We remember Officer Islam's courage and commitment to protecting others.  His dedication to duty will not be forgotten.  Learn more about this heartbreaking incident and the life of a fallen hero.  Support the family during this difficult time.
+Tensions rise at JNU's Mahi-Mandavi hostel over separate eating arrangements for vegetarian and non-vegetarian students.  A disagreement between left-leaning students and the ABVP highlights the issue.  Left-wing students oppose the voluntary segregation, while the ABVP supports it, citing religious sentiments of vegetarian students, particularly during the holy month of Shravan.  The ABVP plans protests, criticizing the administration for its perceived inaction. This conflict underscores the complexities of managing diverse dietary needs and religious practices within a shared living space. The situation remains tense as both sides advocate for their respective positions.  The administration's response will be crucial in resolving this sensitive matter.
 
 Step 1.3: Generating hashtags...
-Hashtags: #OffDutyHero, #NYPD, #BlackstoneGroup, #ParkAvenueShooting, #BraveOfficer, #FallenHero, #GunViolence, #NYC, #PoliceOfficer, #SecurityGuard
+Hashtags: #JNUDisputes, #VegetarianVsNonVegetarian, #MahiMandaviHostel, #StudentProtest, #ABVP, #LeftWingPolitics, #ReligiousConcerns, #Shravan, #JNU, #IndiaNews
 
 Step 1.4: Generating YouTube hook with Gemini...
-Generated hook: Heroic immigrant saves lives in Manhattan.
+Generated hook: JNU food fight: chaos erupts!
 
 All done! Output saved to news_output.json
 
-2025-07-29 23:26:37,020 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
-2025-07-29 23:26:54,668 [INFO] --- STEP 2: Generating Images completed successfully. ---
-2025-07-29 23:26:54,668 [INFO] Starting main function...
-No images returned for prompt 5
-Saved image 3 to generated_images\image_3.png
+2025-08-01 15:55:54,608 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
+2025-08-01 15:56:16,440 [INFO] --- STEP 2: Generating Images completed successfully. ---
+2025-08-01 15:56:16,440 [INFO] Starting main function...
 Saved image 2 to generated_images\image_2.png
-Saved image 1 to generated_images\image_1.png
 Saved image 4 to generated_images\image_4.png
+Saved image 5 to generated_images\image_5.png
+Saved image 1 to generated_images\image_1.png
+Saved image 3 to generated_images\image_3.png
 
 All images saved in the 'generated_images' folder.
 
-2025-07-29 23:26:54,668 [INFO] All images generated and saved to 'generated_images'.
-2025-07-29 23:26:56,675 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
-2025-07-29 23:28:09,688 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
-2025-07-29 23:28:09,688 [INFO] Found 4 images in 'generated_images'.
+2025-08-01 15:56:16,440 [INFO] All images generated and saved to 'generated_images'.
+2025-08-01 15:56:18,453 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
+2025-08-01 15:57:16,849 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
+2025-08-01 15:57:16,849 [INFO] Found 5 images in 'generated_images'.
 Moviepy - Building video temp_video_without_audio.mp4.
 Moviepy - Writing video temp_video_without_audio.mp4
 
@@ -49,12 +49,12 @@ Moviepy - video ready temp_video_without_audio.mp4
 Video saved as temp_video_without_audio.mp4
 Deleted all images in 'generated_images' after successful video creation.
 
-2025-07-29 23:28:09,688 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
-2025-07-29 23:28:09,688 [INFO] Using ElevenLabs Key 1 for this run.
-2025-07-29 23:28:09,688 [INFO] Selected voice: Aria (ID: 9BWtsMINqrJLrRacOk9x)
-2025-07-29 23:28:09,688 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
-2025-07-29 23:32:14,776 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
-2025-07-29 23:32:14,776 [INFO] Speech audio saved to: temp_speech.mp3
+2025-08-01 15:57:16,849 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
+2025-08-01 15:57:16,849 [INFO] Using ElevenLabs Key 1 for this run.
+2025-08-01 15:57:16,849 [INFO] Selected voice: Ziina (ID: FaqthkZu1EWxXxUFbAfb)
+2025-08-01 15:57:16,855 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
+2025-08-01 16:02:02,287 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
+2025-08-01 16:02:02,289 [INFO] Speech audio saved to: temp_speech.mp3
 Moviepy - Building video temp_video_with_speech.mp4.
 MoviePy - Writing audio in temp_video_with_speechTEMP_MPY_wvf_snd.mp4
 MoviePy - Done.
@@ -77,19 +77,20 @@ Moviepy - Done !
 Moviepy - video ready final_output.mp4
 Appended ending image to create: final_output.mp4
 
-2025-07-29 23:32:16,781 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
-2025-07-29 23:32:27,584 [INFO] --- STEP 5: Uploading to YouTube completed successfully. ---
-2025-07-29 23:32:27,584 [INFO] Validating video... Duration: 54.54 seconds.
+2025-08-01 16:02:04,300 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
+2025-08-01 16:02:19,832 [INFO] --- STEP 5: Uploading to YouTube completed successfully. ---
+2025-08-01 16:02:19,832 [INFO] Validating video... Duration: 54.00 seconds.
 
 Authenticating with YouTube...
+Refreshing access token...
 Appended #Shorts to title.
 Appended hastags to description.
 Added 'shorts' to tags.
 
 Uploading file: final_output.mp4...
-Upload Complete! Video ID: NjEgs6b7wQc
+Upload Complete! Video ID: 0BFGJq5v70U
 
-Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/NjEgs6b7wQc
+Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/0BFGJq5v70U
 
-2025-07-29 23:32:27,584 [INFO] YouTube upload process completed.
-2025-07-29 23:32:27,584 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===
+2025-08-01 16:02:19,848 [INFO] YouTube upload process completed.
+2025-08-01 16:02:19,851 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===
