@@ -8,6 +8,8 @@ import google.auth.transport.requests
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
+from google_auth_oauthlib.flow import InstalledAppFlow
+
 
 # --- Constants ---
 API_SERVICE_NAME = "youtube"
@@ -37,7 +39,25 @@ def get_authenticated_service():
             print("Error: Could not find valid credentials. Please run '1_generate_token.py' locally first.")
             return None
 
-    return build(API_SERVICE_NAME, API_VERSION, credentials=creds)
+    return build(API_SERVICE_NAME, API_VERSION, credentials=creds) 
+
+
+# # --- Constants ---
+# SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+# CLIENT_SECRETS_FILE = "client_secret.json"
+# API_SERVICE_NAME = "youtube"
+# API_VERSION = "v3"
+
+# # --- Helper and Authentication Functions ---
+# # to authanticate manually
+# def get_authenticated_service():
+#     """Authenticates the user and builds the YouTube API service object."""
+#     flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
+#     credentials = flow.run_local_server(port=8080)
+#     return build(API_SERVICE_NAME, API_VERSION, credentials=credentials)  
+
+
+
 
 def get_video_duration(video_path):
     """Returns the duration of a video file in seconds using moviepy."""

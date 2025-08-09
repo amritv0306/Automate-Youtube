@@ -96,14 +96,14 @@ def run_step3(image_folder, output_video="temp_video_without_audio.mp4", video_d
 def run_step4(input_video, description, output_video, elevenlabs_api_key):
     step_name = "STEP 4: Adding Captions and Speech"
     voices = {
-        "Liam": "TX3LPaxmHKxFdv7VOQHJ",
-        "Alice": "Xb7hH8MSUJpSbSDYk0k2",
+        "Raju": "3gsg3cxXyFLcGIfNbM6C",  #first 3 voices are custom voices.
+        "Akash": "gkYRuS6pUw0UJKhibzSx",
+        "Kushi": "t0WUmKMVeMLJiTULHrF7",
         "Aria": "9BWtsMINqrJLrRacOk9x",
-        "Bill": "pqHfZKP75CvOlQylNhV4",
-        "Brian": "nPczCjzI2devNBz1zQrb",
-        "Mark": "UgBBYS2sOqTuMpoF3BR0",
-        "Cassidy": "56AoDkrOh6qfVPDXZ7Pt",
-        "Ziina": "FaqthkZu1EWxXxUFbAfb"
+        "Charlie": "IKne3meq5aSn9XLyUdCD",
+        "Laura": "FGY2WhTYpPnrIDTdsKH5",
+        "Liam": "TX3LPaxmHKxFdv7VOQHJ",
+        "Jassica": "cgSgspJ2msm6clMCkdW9"
     }
     voice_name = random.choice(list(voices.keys()))
     voice_id = voices[voice_name]
