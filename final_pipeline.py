@@ -96,9 +96,9 @@ def run_step3(image_folder, output_video="temp_video_without_audio.mp4", video_d
 def run_step4(input_video, description, output_video, elevenlabs_api_key):
     step_name = "STEP 4: Adding Captions and Speech"
     voices = {
-        "Raju": "3gsg3cxXyFLcGIfNbM6C",  #first 3 voices are custom voices.
-        "Akash": "gkYRuS6pUw0UJKhibzSx",
-        "Kushi": "t0WUmKMVeMLJiTULHrF7",
+        # "Raju": "3gsg3cxXyFLcGIfNbM6C",  #first 3 voices are custom voices.
+        # "Akash": "gkYRuS6pUw0UJKhibzSx",
+        # "Kushi": "t0WUmKMVeMLJiTULHrF7",
         "Aria": "9BWtsMINqrJLrRacOk9x",
         "Charlie": "IKne3meq5aSn9XLyUdCD",
         "Laura": "FGY2WhTYpPnrIDTdsKH5",
@@ -144,7 +144,7 @@ def main():
     # ---- API Key Loading ----
     NEWSDATA_API_KEY = os.getenv("NEWSDATA_API_KEY")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  
-    IMAGEROUTER_API_KEY = os.getenv("IMAGEROUTER_API_KEY")
+    IMAGEROUTER_API_KEY = os.getenv("IMAGEROUTER_API_KEY1")
 
     # --- ElevenLabs Key Rotation Logic ---
     ELEVENLABS_API_KEY_1 = os.getenv("ELEVENLABS_API_KEY_1")

@@ -3,16 +3,32 @@ import json
 import requests
 from concurrent.futures import ThreadPoolExecutor
 import argparse
-
+import google.generativeai as genai
+import certifi
 
 def gemini_generate(api_key, title, description):
-    # have to replace this with your actual Gemini API call if available
-    # Here, we simulate a Gemini-generated prompt for demonstration
-    prompt = (
-        f"Create a vivid, detailed image prompt that visually represents the news titled '{title}'. "
-        f"Description: {description}. The image should capture the main theme and feeling of the news."
-    )
-    return prompt
+    """
+    Uses the Gemini API to generate a high-quality, descriptive image prompt.
+    """
+    print("Generating a creative image prompt with Gemini...")
+    try:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-2.0-flash')
+        
+        prompt_template = (
+            f"Generate a single, detailed, and vivid image prompt for a news story. The image should be photorealistic and emotionally resonant, suitable for a YouTube video. "
+            f"Do not include any text in the image. The prompt should be a descriptive paragraph, not a list of keywords. "
+            f"The news story is titled '{title}' and is about: '{description}'. "
+            f"Focus on the core theme and create a compelling visual narrative."
+        )
+        
+        response = model.generate_content(prompt_template)
+        creative_prompt = response.text.strip().replace("\n", " ")
+        print(f"Generated Prompt: {creative_prompt}")
+        return creative_prompt
+    except Exception as e:
+        print(f"Error during Gemini prompt generation: {e}")
+        return f"A photorealistic image representing the news story titled '{title}'"
 
 # --- Read News and Generate Prompt ---
 def get_image_prompt(news_file, gemini_api_key):
@@ -21,35 +37,45 @@ def get_image_prompt(news_file, gemini_api_key):
     title = news.get('title', '')
     description = news.get('description', '')
     prompt = gemini_generate(gemini_api_key, title, description)
-    # print("Gemini-generated image prompt:")
-    # print(prompt)
     return prompt
 
 # --- Generate Image via Imagerouter.io ---
 def generate_image(prompt, api_key, idx, save_folder):
+    # <-- CORRECTED: The URL now includes the required '/openai/' path.
     url = "https://api.imagerouter.io/v1/openai/images/generations"
+    
     payload = {
         "prompt": prompt,
-        "model": "google/gemini-2.0-flash-exp:free",
-        # "size": "1080x1920",
-        # "width": 1080,
-        # "height": 1920
+        "model": "stabilityai/sdxl-turbo:free",
+        "width": 1024,
+        "height": 1024,
+        "num_outputs": 1
     }
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
-    response = requests.post(url, json=payload, headers=headers)
+
+    print(f"Requesting image {idx+1} from ImageRouter...")
+    response = requests.post(url, json=payload, headers=headers, verify=certifi.where())
+    
+    if response.status_code != 200:
+        print(f"Error: API request failed for image {idx+1} with status code {response.status_code}.")
+        print(f"Response: {response.text}")
+        return None
+
     data = response.json()
-    # Adjust this extraction based on actual API response format
     images = data.get('data', [])
     if not images:
-        print(f"No images returned for prompt {idx+1}")
+        print(f"No images returned in the API response for image {idx+1}. Full response: {data}")
         return None
-    image_url = images[0].get('url') if isinstance(images[0], dict) else images[0]
+        
+    image_url = images[0].get('url')
+    
     if not image_url:
-        print(f"No valid image URL found for prompt {idx+1}")
+        print(f"No valid image URL found for image {idx+1}")
         return None
+    
     img_response = requests.get(image_url)
     if img_response.status_code == 200:
         os.makedirs(save_folder, exist_ok=True)
@@ -64,37 +90,29 @@ def generate_image(prompt, api_key, idx, save_folder):
 
 # --- Main Execution ---
 def main():
-    print("Starting main function...")
-    # Create argument parser
     parser = argparse.ArgumentParser(description="Generates images based on news data using Imagerouter.io and Gemini API.")
-
-    #Add arguments
     parser.add_argument("--gemini_api_key", required=True, help="Google Gemini API key")
     parser.add_argument("--imagerouter_api_key", required=True, help="Imagerouter.io API key")
-    NEWS_JSON = "news_output.json"
-    parser.add_argument("--news_file", default=NEWS_JSON, help="Path to the news JSON file (default: news_output.json)")
-
-    # Parse arguments
+    parser.add_argument("--news_file", default="news_output.json", help="Path to the news JSON file (default: news_output.json)")
     args = parser.parse_args()
 
-    IMAGEROUTER_API_KEY = args.imagerouter_api_key
-    GEMINI_API_KEY = args.gemini_api_key
+    prompt = get_image_prompt(args.news_file, args.gemini_api_key)
+    
     SAVE_FOLDER = "generated_images"
     NUM_IMAGES = 5
 
-    if not IMAGEROUTER_API_KEY:
-        raise ValueError("IMAGEROUTER_API_KEY environment variable is not set")
-    if not GEMINI_API_KEY:
-        raise ValueError("GEMINI_API_KEY environment variable is not set")
-    prompt = get_image_prompt(NEWS_JSON, GEMINI_API_KEY)
     with ThreadPoolExecutor(max_workers=NUM_IMAGES) as executor:
         futures = [
-            executor.submit(generate_image, prompt, IMAGEROUTER_API_KEY, i, SAVE_FOLDER)
+            executor.submit(generate_image, prompt, args.imagerouter_api_key, i, SAVE_FOLDER)
             for i in range(NUM_IMAGES)
         ]
         for future in futures:
-            future.result()
-    print(f"\nAll images saved in the '{SAVE_FOLDER}' folder.")
+            try:
+                future.result()
+            except Exception as e:
+                print(f"An error occurred in one of the image generation threads: {e}")
+            
+    print(f"\nImage generation process completed. Check the '{SAVE_FOLDER}' folder.")
 
 if __name__ == "__main__":
     main()

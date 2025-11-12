@@ -1,21 +1,54 @@
-2025-08-09 19:03:29,581 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
-2025-08-09 19:03:45,982 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
-2025-08-09 19:03:45,983 [INFO] None
-2025-08-09 19:03:48,002 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
-2025-08-09 19:04:11,188 [INFO] --- STEP 2: Generating Images completed successfully. ---
-2025-08-09 19:04:11,188 [INFO] Starting main function...
-Saved image 4 to generated_images\image_4.png
+2025-11-12 20:22:26,138 [INFO] --- Running STEP 1: Generating Trending News: Attempt 1 of 3 ---
+2025-11-12 20:22:52,725 [INFO] --- STEP 1: Generating Trending News completed successfully. ---
+2025-11-12 20:22:52,725 [INFO] Step 1.1: Fetching top 5 latest news from NewsData.io...
+
+Fetched news headlines and description lengths:
+1. 'Govinda rushed to the hospital after he fainted, is now under medical observation,' confirms his family - The Times of India | Description words: 72
+2. Delhi blast triggered by panic, IED was not fully developed: MHA sources | Description words: 33
+3. Sergio Gor Appointed New US Ambassador to India, Vows To Strengthen Ties | Description words: 22
+4. Vizag being decked up to welcome global biz leaders | Description words: 29
+5. Lateef Khan conferred Maulana Abul Kalam Azad National Award 2025 | Description words: 27
+
+Selected news with the longest description:
+Title: 'Govinda rushed to the hospital after he fainted, is now under medical observation,' confirms his family - The Times of India
+Description length: 72 words
+
+Step 1.2: Generating YouTube description with Gemini...
+
+Generated summary:
+**Summary:**
+
+Bollywood star Govinda was recently hospitalized in Mumbai after fainting at home. Family sources confirm he is currently under medical observation. News outlets including The Times of India, The Hindu, and The Economic Times reported the incident, noting he was rushed to the hospital for immediate care. According to reports, the actor lost consciousness, prompting concern from fans and colleagues. This occurred shortly after Govinda visited Dharmendra, who is also reportedly unwell. Updates on his condition are awaited as he remains under close supervision.
+
+Step 1.3: Generating hashtags...
+Hashtags: #Govinda, #Bollywood, #HealthUpdate, #Hospitalized, #Fainted, #Mumbai, #Actor, #BollywoodNews, #CelebrityHealth
+
+Step 1.4: Generating YouTube hook with Gemini...
+Generated hook: Govinda hospitalized, family confirms.
+
+All done! Output saved to news_output.json
+
+2025-11-12 20:22:54,764 [INFO] --- Running STEP 2: Generating Images: Attempt 1 of 3 ---
+2025-11-12 20:23:29,126 [INFO] --- STEP 2: Generating Images completed successfully. ---
+2025-11-12 20:23:29,126 [INFO] Generating a creative image prompt with Gemini...
+Error during Gemini prompt generation: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+Requesting image 1 from ImageRouter...
+Requesting image 2 from ImageRouter...
+Requesting image 3 from ImageRouter...
+Requesting image 4 from ImageRouter...
+Requesting image 5 from ImageRouter...
 Saved image 2 to generated_images\image_2.png
 Saved image 5 to generated_images\image_5.png
 Saved image 3 to generated_images\image_3.png
-No images returned for prompt 1
+Saved image 1 to generated_images\image_1.png
+Saved image 4 to generated_images\image_4.png
 
-All images saved in the 'generated_images' folder.
+Image generation process completed. Check the 'generated_images' folder.
 
-2025-08-09 19:04:11,188 [INFO] All images generated and saved to 'generated_images'.
-2025-08-09 19:04:13,194 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
-2025-08-09 19:04:57,019 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
-2025-08-09 19:04:57,019 [INFO] Found 4 images in 'generated_images'.
+2025-11-12 20:23:29,141 [INFO] All images generated and saved to 'generated_images'.
+2025-11-12 20:23:31,142 [INFO] --- Running STEP 3: Creating Video from Images: Attempt 1 of 3 ---
+2025-11-12 20:25:12,862 [INFO] --- STEP 3: Creating Video from Images completed successfully. ---
+2025-11-12 20:25:12,862 [INFO] Found 5 images in 'generated_images'.
 Moviepy - Building video temp_video_without_audio.mp4.
 Moviepy - Writing video temp_video_without_audio.mp4
 
@@ -24,12 +57,12 @@ Moviepy - video ready temp_video_without_audio.mp4
 Video saved as temp_video_without_audio.mp4
 Deleted all images in 'generated_images' after successful video creation.
 
-2025-08-09 19:04:57,020 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
-2025-08-09 19:04:57,020 [INFO] Using ElevenLabs Key 2 for this run.
-2025-08-09 19:04:57,021 [INFO] Selected voice: Kushi (ID: t0WUmKMVeMLJiTULHrF7)
-2025-08-09 19:04:57,021 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
-2025-08-09 19:08:00,959 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
-2025-08-09 19:08:00,959 [INFO] Speech audio saved to: temp_speech.mp3
+2025-11-12 20:25:12,862 [INFO] Video created and saved as 'temp_video_without_audio.mp4'.
+2025-11-12 20:25:12,862 [INFO] Using ElevenLabs Key 2 for this run.
+2025-11-12 20:25:12,862 [INFO] Selected voice: Aria (ID: 9BWtsMINqrJLrRacOk9x)
+2025-11-12 20:25:12,862 [INFO] --- Running STEP 4: Adding Captions and Speech: Attempt 1 of 3 ---
+2025-11-12 20:29:17,279 [INFO] --- STEP 4: Adding Captions and Speech completed successfully. ---
+2025-11-12 20:29:17,295 [INFO] Speech audio saved to: temp_speech.mp3
 Moviepy - Building video temp_video_with_speech.mp4.
 MoviePy - Writing audio in temp_video_with_speechTEMP_MPY_wvf_snd.mp4
 MoviePy - Done.
@@ -52,60 +85,20 @@ Moviepy - Done !
 Moviepy - video ready final_output.mp4
 Appended ending image to create: final_output.mp4
 
-2025-08-09 19:08:02,972 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
-2025-08-09 19:08:07,776 [WARNING] --- STEP 5: Uploading to YouTube failed on attempt 1. Return code: 1 ---
-2025-08-09 19:08:07,776 [WARNING] Stderr: Traceback (most recent call last):
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 174, in <module>
-    main()
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 158, in main
-    youtube = get_authenticated_service()
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 27, in get_authenticated_service
-    creds = Credentials.from_authorized_user_file(TOKEN_FILE, [ "https://www.googleapis.com/auth/youtube.upload"])
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\myenv\Lib\site-packages\google\oauth2\credentials.py", line 517, in from_authorized_user_file
-    return cls.from_authorized_user_info(data, scopes)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\myenv\Lib\site-packages\google\oauth2\credentials.py", line 464, in from_authorized_user_info
-    raise ValueError(
-ValueError: Authorized user info was not in the expected format, missing fields refresh_token.
+2025-11-12 20:29:19,309 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 1 of 3 ---
+2025-11-12 20:29:30,713 [INFO] --- STEP 5: Uploading to YouTube completed successfully. ---
+2025-11-12 20:29:30,713 [INFO] Validating video... Duration: 43.96 seconds.
 
-2025-08-09 19:08:07,776 [INFO] Retrying in 5 seconds...
-2025-08-09 19:08:12,787 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 2 of 3 ---
-2025-08-09 19:08:17,517 [WARNING] --- STEP 5: Uploading to YouTube failed on attempt 2. Return code: 1 ---
-2025-08-09 19:08:17,518 [WARNING] Stderr: Traceback (most recent call last):
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 174, in <module>
-    main()
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 158, in main
-    youtube = get_authenticated_service()
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 27, in get_authenticated_service
-    creds = Credentials.from_authorized_user_file(TOKEN_FILE, [ "https://www.googleapis.com/auth/youtube.upload"])
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\myenv\Lib\site-packages\google\oauth2\credentials.py", line 517, in from_authorized_user_file
-    return cls.from_authorized_user_info(data, scopes)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\myenv\Lib\site-packages\google\oauth2\credentials.py", line 464, in from_authorized_user_info
-    raise ValueError(
-ValueError: Authorized user info was not in the expected format, missing fields refresh_token.
+Authenticating with YouTube...
+Refreshing access token...
+Appended #Shorts to title.
+Appended hastags to description.
+Added 'shorts' to tags.
 
-2025-08-09 19:08:17,518 [INFO] Retrying in 5 seconds...
-2025-08-09 19:08:22,519 [INFO] --- Running STEP 5: Uploading to YouTube: Attempt 3 of 3 ---
-2025-08-09 19:08:26,627 [WARNING] --- STEP 5: Uploading to YouTube failed on attempt 3. Return code: 1 ---
-2025-08-09 19:08:26,627 [WARNING] Stderr: Traceback (most recent call last):
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 174, in <module>
-    main()
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 158, in main
-    youtube = get_authenticated_service()
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\step5_final_upload.py", line 27, in get_authenticated_service
-    creds = Credentials.from_authorized_user_file(TOKEN_FILE, [ "https://www.googleapis.com/auth/youtube.upload"])
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\myenv\Lib\site-packages\google\oauth2\credentials.py", line 517, in from_authorized_user_file
-    return cls.from_authorized_user_info(data, scopes)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Administrator\Desktop\VS\Projetcs\AutomateYoutube\myenv\Lib\site-packages\google\oauth2\credentials.py", line 464, in from_authorized_user_info
-    raise ValueError(
-ValueError: Authorized user info was not in the expected format, missing fields refresh_token.
+Uploading file: final_output.mp4...
+Upload Complete! Video ID: VT8LvlvkXO8
 
-2025-08-09 19:08:26,628 [ERROR] All 3 attempts failed for STEP 5: Uploading to YouTube. Exiting pipeline.
+Video uploaded successfully! Watch your Short at: https://www.youtube.com/shorts/VT8LvlvkXO8
+
+2025-11-12 20:29:30,713 [INFO] YouTube upload process completed.
+2025-11-12 20:29:30,713 [INFO] === ALL STEPS COMPLETED SUCCESSFULLY ===

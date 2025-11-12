@@ -9,7 +9,9 @@ from google import genai  # Gemini API client
 from google.genai.types import GenerateContentConfig
 import argparse
 
-def gemini_generate(api_key, prompt, model="gemini-1.5-flash", retries=3, delay=2):
+# earlier I was using "gemini-1.5-flash" model but it has been discontinued in Sept 2025 and therefore now I am using the lastest model which can be used by the API keys.
+# but this process still uses the old v1beta endpoint and the current models works in v1 endpoint, have to update the enpoints in future for scalling purpose.
+def gemini_generate(api_key, prompt, model="gemini-2.0-flash", retries=3, delay=2):
     client = genai.Client(api_key=api_key)
     system_instruction = """You are a helpful and professional content assistant specialized in optimizing YouTube video content. Your job is to generate concise, engaging, and YouTube-compliant content for creators. Follow YouTube's Community Guidelines strictly while avoiding hate speech, violence, adult content, or misleading claims.
 
@@ -62,6 +64,12 @@ def process_title_with_gemini(api_key, raw_title):
         f"Original headline:\n{raw_title}"
     )
     title = gemini_generate(api_key, prompt)
+    # --- ADDED SAFETY CHECK ---
+    if not title:
+        print("⚠️ Gemini title generation failed. Falling back to the original title.")
+        title = raw_title # Use the original title as a fallback
+    # --- END OF SAFETY CHECK ---
+
     # Ensure ASCII and length after Gemini
     import unicodedata
     title_ascii = unicodedata.normalize('NFKD', title).encode('ascii', 'ignore').decode('ascii')
