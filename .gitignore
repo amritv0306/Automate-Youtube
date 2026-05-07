@@ -23,3 +23,6 @@ token.json
 
 # extra files
 veo.py
+
+#session report files
+session_report_claude

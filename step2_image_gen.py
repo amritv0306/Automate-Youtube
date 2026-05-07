@@ -3,31 +3,82 @@ import json
 import requests
 from concurrent.futures import ThreadPoolExecutor
 import argparse
-import google.generativeai as genai
 import certifi
+import sys
+import time
+
+# --- FIX: Set UTF-8 encoding for proper Unicode support on Windows ---
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+# --- Import caching and rate limiting utilities ---
+from api_utils import get_cache, get_rate_limiter, call_with_cache_and_limits
+
+# --- Import Gemini API (try new SDK first, fallback to old) ---
+try:
+    from google import genai
+    GEMINI_SDK_VERSION = "new"
+except ImportError:
+    import google.generativeai as genai
+    GEMINI_SDK_VERSION = "old"
+    print("[INFO] Using old Gemini SDK version")
 
 def gemini_generate(api_key, title, description):
     """
     Uses the Gemini API to generate a high-quality, descriptive image prompt.
+    Uses caching and rate limiting to avoid quota exhaustion.
+    Works with both old and new Google Generative AI SDK versions.
     """
     print("Generating a creative image prompt with Gemini...")
-    try:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-2.0-flash')
-        
-        prompt_template = (
-            f"Generate a single, detailed, and vivid image prompt for a news story. The image should be photorealistic and emotionally resonant, suitable for a YouTube video. "
-            f"Do not include any text in the image. The prompt should be a descriptive paragraph, not a list of keywords. "
-            f"The news story is titled '{title}' and is about: '{description}'. "
-            f"Focus on the core theme and create a compelling visual narrative."
-        )
-        
-        response = model.generate_content(prompt_template)
-        creative_prompt = response.text.strip().replace("\n", " ")
+
+    cache = get_cache()
+    rate_limiter = get_rate_limiter()
+
+    prompt_template = (
+        f"Generate a single, detailed, and vivid image prompt for a news story. The image should be photorealistic and emotionally resonant, suitable for a YouTube video. "
+        f"Do not include any text in the image. The prompt should be a descriptive paragraph, not a list of keywords. "
+        f"The news story is titled '{title}' and is about: '{description}'. "
+        f"Focus on the core theme and create a compelling visual narrative."
+    )
+
+    def api_call():
+        """Actual API call to Gemini - works with both SDK versions."""
+        try:
+            if GEMINI_SDK_VERSION == "new":
+                # New SDK syntax
+                client = genai.Client(api_key=api_key)
+                response = client.models.generate_content(
+                    model='gemini-1.5-flash',
+                    contents=prompt_template
+                )
+            else:
+                # Old SDK syntax
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-1.5-flash')
+                response = model.generate_content(prompt_template)
+
+            return response.text.strip().replace("\n", " ") if response and hasattr(response, 'text') else None
+        except Exception as e:
+            print(f"[API ERROR] {type(e).__name__}: {e}")
+            raise
+
+    # Use caching and rate limiting wrapper
+    creative_prompt = call_with_cache_and_limits(
+        cache=cache,
+        rate_limiter=rate_limiter,
+        api_name="gemini_image_prompt",
+        input_text=f"{title}_{description}",
+        api_call_func=api_call,
+        max_retries=3
+    )
+
+    if creative_prompt:
         print(f"Generated Prompt: {creative_prompt}")
         return creative_prompt
-    except Exception as e:
-        print(f"Error during Gemini prompt generation: {e}")
+    else:
+        # Fallback to simple prompt on error
+        print(f"[WARNING] Gemini prompt generation failed. Using fallback prompt.")
         return f"A photorealistic image representing the news story titled '{title}'"
 
 # --- Read News and Generate Prompt ---

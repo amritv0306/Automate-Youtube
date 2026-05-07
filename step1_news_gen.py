@@ -1,43 +1,97 @@
 # getting the latest news headlines using NewsData.io and proccessing it through Gemini API to generate a YouTube video description, hashtags, and a hook.
 
+import sys
 import requests
 import os
 import json
 import re
 import time
-from google import genai  # Gemini API client
-from google.genai.types import GenerateContentConfig
 import argparse
 
+# --- FIX: Set UTF-8 encoding for proper Unicode support on Windows ---
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+# --- Import caching and rate limiting utilities ---
+from api_utils import get_cache, get_rate_limiter, call_with_cache_and_limits
+
+# --- Import Gemini API (try new SDK first, fallback to old) ---
+try:
+    # New SDK (0.8.5+)
+    from google import genai
+    from google.genai.types import GenerateContentConfig
+    GEMINI_SDK_VERSION = "new"
+except ImportError:
+    # Old SDK (0.8.5 and earlier)
+    import google.generativeai as genai
+    GenerateContentConfig = None
+    GEMINI_SDK_VERSION = "old"
+    print("[INFO] Using old Gemini SDK version")
+
+# Gemini API system instruction
+GEMINI_SYSTEM_INSTRUCTION = """You are a helpful and professional content assistant specialized in optimizing YouTube video content. Your job is to generate concise, engaging, and YouTube-compliant content for creators. Follow YouTube's Community Guidelines strictly while avoiding hate speech, violence, adult content, or misleading claims.
+
+Your tasks include:
+1. Summarizing long video descriptions into ~100 words while keeping it informative, engaging, and compliant with YouTube's terms.
+2. Writing attention-grabbing video hooks based on a title or headline that encourage viewers to watch the video, without being clickbait or misleading.
+3. Generating relevant and trending hashtags related to the video's topic, using a mix of general and niche-specific tags, capped at 15.
+
+Maintain a neutral, informative tone, avoid sensationalism or controversial phrasing, and ensure the content is safe for general audiences.
+Output must be structured clearly for each task.
+"""
 # earlier I was using "gemini-1.5-flash" model but it has been discontinued in Sept 2025 and therefore now I am using the lastest model which can be used by the API keys.
 # but this process still uses the old v1beta endpoint and the current models works in v1 endpoint, have to update the enpoints in future for scalling purpose.
-def gemini_generate(api_key, prompt, model="gemini-2.0-flash", retries=3, delay=2):
-    client = genai.Client(api_key=api_key)
-    system_instruction = """You are a helpful and professional content assistant specialized in optimizing YouTube video content. Your job is to generate concise, engaging, and YouTube-compliant content for creators. Follow YouTube's Community Guidelines strictly while avoiding hate speech, violence, adult content, or misleading claims.
+def gemini_generate(api_key, prompt, model="gemini-1.5-flash", retries=3, delay=2):
+    """
+    Generate content using Gemini API with caching and rate limiting.
+    Works with both old and new Google Generative AI SDK versions.
+    """
+    cache = get_cache()
+    rate_limiter = get_rate_limiter()
 
-    Your tasks include:
-    1. Summarizing long video descriptions into ~100 words while keeping it informative, engaging, and compliant with YouTube's terms.
-    2. Writing attention-grabbing video hooks based on a title or headline that encourage viewers to watch the video, without being clickbait or misleading.
-    3. Generating relevant and trending hashtags related to the video's topic, using a mix of general and niche-specific tags, capped at 15.
-
-    Maintain a neutral, informative tone, avoid sensationalism or controversial phrasing, and ensure the content is safe for general audiences.
-    Output must be structured clearly for each task.
-    ."""
-    for attempt in range(retries):
+    def api_call():
+        """Actual API call function - works with both SDK versions."""
         try:
-            response = client.models.generate_content(
-                model=model,
-                contents=prompt,
-                config = GenerateContentConfig(
-                    system_instruction=system_instruction,
-                ),
-            )
-            return response.text.strip()
+            if GEMINI_SDK_VERSION == "new":
+                # New SDK syntax
+                client = genai.Client(api_key=api_key)
+                response = client.models.generate_content(
+                    model=model,
+                    contents=prompt,
+                    config=GenerateContentConfig(
+                        system_instruction=GEMINI_SYSTEM_INSTRUCTION,
+                    ),
+                )
+            else:
+                # Old SDK syntax
+                genai.configure(api_key=api_key)
+                model_obj = genai.GenerativeModel(
+                    model_name=model,
+                    system_instruction=GEMINI_SYSTEM_INSTRUCTION
+                )
+                response = model_obj.generate_content(prompt)
+
+            return response.text.strip() if response and hasattr(response, 'text') else None
         except Exception as e:
-            if attempt == retries - 1:
-                print(f"Gemini API failed after {retries} attempts: {e}")
-                return None
-            time.sleep(delay)
+            print(f"[API ERROR] {type(e).__name__}: {e}")
+            raise
+
+    # Use caching and rate limiting wrapper
+    result = call_with_cache_and_limits(
+        cache=cache,
+        rate_limiter=rate_limiter,
+        api_name="gemini",
+        input_text=prompt,
+        api_call_func=api_call,
+        max_retries=retries
+    )
+
+    if result:
+        return result
+    else:
+        print(f"[ERROR] Gemini API failed after {retries} attempts")
+        return None
 
 def fetch_top_news(api_key, country="in", language="en", limit=5):
     url = "https://newsdata.io/api/1/latest"
@@ -66,7 +120,7 @@ def process_title_with_gemini(api_key, raw_title):
     title = gemini_generate(api_key, prompt)
     # --- ADDED SAFETY CHECK ---
     if not title:
-        print("⚠️ Gemini title generation failed. Falling back to the original title.")
+        print("[WARNING] Gemini title generation failed. Falling back to the original title.")
         title = raw_title # Use the original title as a fallback
     # --- END OF SAFETY CHECK ---
 
@@ -95,9 +149,19 @@ def generate_summary(api_key, text):
     1. Keep strictly 100 words
     2. Use simple language
     3. Include key facts only and dont include hashtags
-    4. Don't include any quotes. 
+    4. Don't include any quotes.
     5. Don't include \" or ' characters and its correspinding encodings like &quot; or &#39;"""
-    return gemini_generate(api_key, prompt)
+
+    summary = gemini_generate(api_key, prompt)
+
+    # Fallback if API fails
+    if not summary:
+        print("[WARNING] Summary generation failed. Using truncated text as fallback.")
+        # Fallback: use first 100 words of original text
+        words = text.split()[:100]
+        summary = " ".join(words)
+
+    return summary
 
 def generate_hashtags(api_key, text, num_tags=10):
     prompt = (
@@ -106,18 +170,28 @@ def generate_hashtags(api_key, text, num_tags=10):
         f"Description:\n{text}\n"
     )
     hashtags_text = gemini_generate(api_key, prompt)
+
+    # Handle None response from API
+    if not hashtags_text:
+        print("[WARNING] Failed to generate hashtags. Using fallback hashtags.")
+        return ["#news", "#trending", "#youtube", "#video", "#breaking"]
+
     # Try to extract list from Gemini's output
     try:
         hashtags = eval(hashtags_text)
         if isinstance(hashtags, list):
             hashtags = [tag if tag.startswith("#") else "#" + tag.lstrip("#") for tag in hashtags]
             return hashtags[:num_tags]
-    except Exception:
+    except Exception as e:
         # Fallback: extract hashtags with regex
         import re
         hashtags = re.findall(r"#\w+", hashtags_text)
-        return hashtags[:num_tags]
-    return []
+        if hashtags:
+            return hashtags[:num_tags]
+
+    # Final fallback if all else fails
+    print("[WARNING] Could not parse hashtags. Using fallback.")
+    return ["#news", "#trending", "#youtube", "#video", "#breaking"]
 
 
 def generate_hook(api_key, headline):
@@ -126,7 +200,8 @@ def generate_hook(api_key, headline):
             Examples: 'This changes everything!', 'You won't believe this!'
             Respond ONLY with the hook."""
     hook = gemini_generate(api_key, prompt)
-    return hook or "Must Watch! 🔥"
+    # Fallback to safe text (no emoji)
+    return hook or "Must Watch This Now!"
 
 def main():
     # Create argument parser

@@ -90,6 +90,7 @@ def upload_video_as_short(youtube, video_file, title, description, tags, categor
         tags.append("shorts")
         print("Added 'shorts' to tags.")
     
+    # 4. prepared the metadata
     body = {
         'snippet': {
             'title': title,
@@ -102,6 +103,7 @@ def upload_video_as_short(youtube, video_file, title, description, tags, categor
         }
     }
 
+    # 4. created the upload request
     media = MediaFileUpload(video_file, chunksize=-1, resumable=True)
 
     request = youtube.videos().insert(
